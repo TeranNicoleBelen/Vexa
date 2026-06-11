@@ -1,0 +1,287 @@
+# ============================================
+# VEXA - Kubernetes Manifests
+# ============================================
+
+# --- NAMESPACE ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vexa
+
+---
+# --- MYSQL SECRET ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+  namespace: vexa
+type: Opaque
+stringData:
+  MYSQL_ROOT_PASSWORD: vexa_root_2024
+  MYSQL_DATABASE: vexa_db
+  MYSQL_USER: vexa_user
+  MYSQL_PASSWORD: vexa_pass_2024
+
+---
+# --- BACKEND SECRET ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-secret
+  namespace: vexa
+type: Opaque
+stringData:
+  JWT_SECRET: vexa_super_secret_k8s_2024
+  DB_PASSWORD: vexa_pass_2024
+
+---
+# --- MYSQL PERSISTENT VOLUME CLAIM ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+  namespace: vexa
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+
+---
+# --- UPLOADS PERSISTENT VOLUME CLAIM ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: uploads-pvc
+  namespace: vexa
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+# --- MYSQL DEPLOYMENT ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: vexa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_DATABASE
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
+          volumeMounts:
+            - name: mysql-storage
+              mountPath: /var/lib/mysql
+          readinessProbe:
+            exec:
+              command: ["mysqladmin", "ping", "-h", "localhost"]
+            initialDelaySeconds: 30
+            periodSeconds: 10
+      volumes:
+        - name: mysql-storage
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+
+---
+# --- MYSQL SERVICE ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+  namespace: vexa
+spec:
+  selector:
+    app: mysql
+  ports:
+    - port: 3306
+      targetPort: 3306
+  clusterIP: None
+
+---
+# --- BACKEND DEPLOYMENT ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vexa-backend
+  namespace: vexa
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: vexa-backend
+  template:
+    metadata:
+      labels:
+        app: vexa-backend
+    spec:
+      containers:
+        - name: backend
+          image: vexa-backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          env:
+            - name: PORT
+              value: "5000"
+            - name: NODE_ENV
+              value: "production"
+            - name: DB_HOST
+              value: "mysql-service"
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: DB_PASSWORD
+            - name: DB_NAME
+              value: "vexa_db"
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: JWT_SECRET
+            - name: JWT_EXPIRES_IN
+              value: "24h"
+          volumeMounts:
+            - name: uploads-storage
+              mountPath: /app/uploads
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+      volumes:
+        - name: uploads-storage
+          persistentVolumeClaim:
+            claimName: uploads-pvc
+
+---
+# --- BACKEND SERVICE ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vexa-backend-service
+  namespace: vexa
+spec:
+  selector:
+    app: vexa-backend
+  ports:
+    - port: 5000
+      targetPort: 5000
+  type: ClusterIP
+
+---
+# --- FRONTEND DEPLOYMENT ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vexa-frontend
+  namespace: vexa
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: vexa-frontend
+  template:
+    metadata:
+      labels:
+        app: vexa-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: vexa-frontend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 15
+
+---
+# --- FRONTEND SERVICE ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vexa-frontend-service
+  namespace: vexa
+spec:
+  selector:
+    app: vexa-frontend
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer
+
+---
+# --- HORIZONTAL POD AUTOSCALER (Backend) ---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: vexa-backend-hpa
+  namespace: vexa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: vexa-backend
+  minReplicas: 2
+  maxReplicas: 8
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70

@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # Base de datos MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: vexa-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: vexa_root_2024
+      MYSQL_DATABASE: vexa_db
+      MYSQL_USER: vexa_user
+      MYSQL_PASSWORD: vexa_pass_2024
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/vexa_db.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - vexa-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 5
+
+  # Backend Node.js
+  backend:
+    build: ./backend
+    container_name: vexa-backend
+    restart: unless-stopped
+    environment:
+      PORT: 5000
+      NODE_ENV: production
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: vexa_user
+      DB_PASSWORD: vexa_pass_2024
+      DB_NAME: vexa_db
+      JWT_SECRET: vexa_super_secret_docker_2024
+      JWT_EXPIRES_IN: 24h
+      FRONTEND_URL: http://localhost:3000
+    ports:
+      - "5000:5000"
+    volumes:
+      - uploads_data:/app/uploads
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - vexa-network
+
+  # Frontend React
+  frontend:
+    build: ./frontend
+    container_name: vexa-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - vexa-network
+
+volumes:
+  mysql_data:
+  uploads_data:
+
+networks:
+  vexa-network:
+    driver: bridge
