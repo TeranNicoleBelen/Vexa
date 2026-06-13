@@ -31,7 +31,7 @@ export default function MyOrdersPage() {
           <div className="flex-center" style={{ padding: 60 }}><div className="spinner" /></div>
         ) : pedidos.length === 0 ? (
           <div style={{ textAlign: 'center', padding: 80 }}>
-            <div style={{ fontSize: 64 }}>📦</div>
+            <div style={{ fontSize: 64 }}></div>
             <h3 style={{ marginBottom: 12 }}>No tienes pedidos aún</h3>
             <Link to="/tienda" className="btn btn-primary btn-lg">Ir a la Tienda</Link>
           </div>

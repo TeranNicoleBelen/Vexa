@@ -47,7 +47,7 @@ export default function OrderConfirmPage() {
 
           {pedido.tipo_entrega === 'envio' && (
             <div style={S.addressBox}>
-              <h3 style={S.addressTitle}>📦 Dirección de Entrega</h3>
+              <h3 style={S.addressTitle}> Dirección de Entrega</h3>
               <p><strong>Dirección:</strong> {pedido.direccion_envio}</p>
               <p><strong>Ciudad:</strong> {pedido.ciudad} | <strong>Zona:</strong> {pedido.zona}</p>
               <p><strong>Referencia:</strong> {pedido.referencia}</p>
@@ -56,7 +56,7 @@ export default function OrderConfirmPage() {
           )}
           {pedido.tipo_entrega === 'recogida' && (
             <div style={{ ...S.addressBox, background: '#F0FDF4', borderColor: '#86EFAC' }}>
-              <h3 style={S.addressTitle}>🏪 Retiro en Tienda</h3>
+              <h3 style={S.addressTitle}> Retiro en Tienda</h3>
               <p><strong>Dirección:</strong> Mercado Ciudad Satélite, El Alto</p>
               <p><strong>Horario:</strong> Lunes a Sábado, 8:00 – 20:00</p>
               <p><strong>Teléfono:</strong> +591 60612998</p>
@@ -100,10 +100,10 @@ export default function OrderConfirmPage() {
         {/* Actions */}
         <div style={S.actions}>
           <a href={pdfUrl} target="_blank" rel="noreferrer" className="btn btn-primary btn-lg">
-            📄 Descargar Ticket PDF
+            PDF Descargar Ticket PDF
           </a>
-          <Link to="/mis-pedidos" className="btn btn-secondary btn-lg">📦 Ver Mis Pedidos</Link>
-          <Link to="/tienda" className="btn" style={{ background: '#F0E0E5', color: '#5C3D47' }}>🛍️ Seguir Comprando</Link>
+          <Link to="/mis-pedidos" className="btn btn-secondary btn-lg"> Ver Mis Pedidos</Link>
+          <Link to="/tienda" className="btn" style={{ background: '#F0E0E5', color: '#5C3D47' }}> Seguir Comprando</Link>
         </div>
       </div>
       <Footer />

@@ -81,8 +81,8 @@ export default function CheckoutPage() {
                 <h2 style={S.sectionTitle}>1. Tipo de Entrega</h2>
                 <div style={S.optionGrid}>
                   {[
-                    { value: 'envio', icon: '🚚', title: 'Envío a Domicilio', desc: `Bs ${total >= 200 ? '0 (¡Gratis!)' : '15.00'}` },
-                    { value: 'recogida', icon: '🏪', title: 'Recoger en Tienda', desc: 'Av. Principal 123, La Paz' },
+                    { value: 'envio', icon: '', title: 'Envío a Domicilio', desc: `Bs ${total >= 200 ? '0 (¡Gratis!)' : '15.00'}` },
+                    { value: 'recogida', icon: '', title: 'Recoger en Tienda', desc: 'Av. Principal 123, La Paz' },
                   ].map(opt => (
                     <div key={opt.value} onClick={() => { setForm(f => ({ ...f, tipo_entrega: opt.value })); setErrors(e => ({ ...e, tipo_entrega: '' })); }}
                       style={{ ...S.optCard, ...(form.tipo_entrega === opt.value ? S.optCardActive : {}) }}>
@@ -96,7 +96,7 @@ export default function CheckoutPage() {
 
                 {form.tipo_entrega === 'envio' && (
                   <div style={S.addressForm}>
-                    <h3 style={S.subTitle}>📍 Datos de Envío (campos obligatorios)</h3>
+                    <h3 style={S.subTitle}> Datos de Envío (campos obligatorios)</h3>
                     <div className="form-group">
                       <label className="form-label">Dirección Exacta *</label>
                       <input className={`form-control${errors.direccion_envio ? ' error' : ''}`} placeholder="Ej: Calle Murillo #456, piso 2" value={form.direccion_envio} onChange={e => setForm(f => ({ ...f, direccion_envio: e.target.value }))} />
@@ -133,14 +133,14 @@ export default function CheckoutPage() {
 
                 {form.tipo_entrega === 'recogida' && (
                   <div style={S.storeInfo}>
-                    <h3 style={S.subTitle}>📍 Ubicación de la Tienda</h3>
+                    <h3 style={S.subTitle}> Ubicación de la Tienda</h3>
                     <div style={S.storeCard}>
                       <p style={{ fontWeight: 600, fontSize: 16 }}>VEXA - Tienda Central</p>
                       <p style={{ color: '#9B7B84', marginTop: 4 }}>Mercado Ciudad Satélite, El Alto, Bolivia</p>
-                      <p style={{ color: '#9B7B84', fontSize: 13, marginTop: 4 }}>📞 +591 60612998 / 73503017 | ⏰ Lun–Sáb: 8:00 – 20:00</p>
+                      <p style={{ color: '#9B7B84', fontSize: 13, marginTop: 4 }}> +591 60612998 / 73503017 |  Lun–Sáb: 8:00 – 20:00</p>
                       <a href="https://maps.google.com/?q=La+Paz+Bolivia" target="_blank" rel="noreferrer"
                         style={{ display: 'inline-block', marginTop: 12, color: '#E8637A', fontSize: 14 }}>
-                        🗺️ Ver en Google Maps
+                         Ver en Google Maps
                       </a>
                     </div>
                   </div>
@@ -152,9 +152,9 @@ export default function CheckoutPage() {
                 <h2 style={S.sectionTitle}>2. Método de Pago</h2>
                 <div style={S.optionGrid}>
                   {[
-                    { value: 'qr', icon: '📱', title: 'Pago QR', desc: 'Escanea y paga al instante' },
-                    { value: 'tarjeta', icon: '💳', title: 'Tarjeta', desc: 'Crédito o Débito' },
-                    ...(form.tipo_entrega === 'recogida' ? [{ value: 'efectivo', icon: '💵', title: 'Efectivo en Tienda', desc: 'Paga al recoger' }] : []),
+                    { value: 'qr', icon: '', title: 'Pago QR', desc: 'Escanea y paga al instante' },
+                    { value: 'tarjeta', icon: '', title: 'Tarjeta', desc: 'Crédito o Débito' },
+                    ...(form.tipo_entrega === 'recogida' ? [{ value: 'efectivo', icon: '', title: 'Efectivo en Tienda', desc: 'Paga al recoger' }] : []),
                   ].map(opt => (
                     <div key={opt.value} onClick={() => { setForm(f => ({ ...f, metodo_pago: opt.value })); setErrors(e => ({ ...e, metodo_pago: '' })); }}
                       style={{ ...S.optCard, ...(form.metodo_pago === opt.value ? S.optCardActive : {}) }}>
@@ -168,16 +168,16 @@ export default function CheckoutPage() {
 
                 {form.metodo_pago === 'qr' && (
                   <div style={S.payInfo}>
-                    <p style={{ fontWeight: 600 }}>📱 Escanea el código QR al finalizar el pedido</p>
+                    <p style={{ fontWeight: 600 }}> Escanea el código QR al finalizar el pedido</p>
                     <div style={S.qrMock}>
-                      <div style={{ fontSize: 60 }}>📲</div>
+                      <div style={{ fontSize: 60 }}></div>
                       <p style={{ fontSize: 13, color: '#9B7B84' }}>El QR estará disponible tras confirmar el pedido</p>
                     </div>
                   </div>
                 )}
                 {form.metodo_pago === 'tarjeta' && (
                   <div style={S.payInfo}>
-                    <p style={{ fontWeight: 600, marginBottom: 16 }}>💳 Datos de la Tarjeta</p>
+                    <p style={{ fontWeight: 600, marginBottom: 16 }}> Datos de la Tarjeta</p>
                     <div className="form-group">
                       <label className="form-label">Número de Tarjeta</label>
                       <input className="form-control" placeholder="1234 5678 9012 3456" maxLength={19} />
@@ -200,7 +200,7 @@ export default function CheckoutPage() {
                 )}
                 {form.metodo_pago === 'efectivo' && (
                   <div style={{ ...S.payInfo, background: '#F0FDF4', borderColor: '#86EFAC' }}>
-                    <p style={{ color: '#166534', fontWeight: 600 }}>💵 Pago en efectivo al recoger el pedido en tienda</p>
+                    <p style={{ color: '#166534', fontWeight: 600 }}> Pago en efectivo al recoger el pedido en tienda</p>
                     <p style={{ color: '#166534', fontSize: 14, marginTop: 8 }}>Presenta tu código de pedido al llegar.</p>
                   </div>
                 )}
@@ -227,7 +227,7 @@ export default function CheckoutPage() {
                 <span>TOTAL:</span><strong>Bs {totalFinal.toFixed(2)}</strong>
               </div>
               <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: 16, fontSize: 16, marginTop: 20 }} disabled={loading}>
-                {loading ? '⏳ Procesando...' : '✅ Confirmar Pedido'}
+                {loading ? ' Procesando...' : '✓ Confirmar Pedido'}
               </button>
               <p style={{ fontSize: 12, color: '#9B7B84', textAlign: 'center', marginTop: 12 }}>
                 Al confirmar aceptas nuestros términos y condiciones

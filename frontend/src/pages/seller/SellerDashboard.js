@@ -28,10 +28,10 @@ export default function SellerDashboard() {
     <AdminLayout title="Panel Vendedor" subtitle="Resumen de ventas y operaciones">
       <div className="stats-grid">
         {[
-          { icon: '💰', label: 'Ingresos Totales', value: `Bs ${parseFloat(stats?.ingresos || 0).toFixed(2)}`, cls: 'pink' },
-          { icon: '📦', label: 'Pedidos Totales', value: stats?.totalVentas || 0, cls: 'coral' },
-          { icon: '🛍️', label: 'Productos Activos', value: stats?.totalProductos || 0, cls: 'green' },
-          { icon: '⏳', label: 'Pendientes', value: stats?.totalPendientes || 0, cls: 'blue' },
+          { icon: '', label: 'Ingresos Totales', value: `Bs ${parseFloat(stats?.ingresos || 0).toFixed(2)}`, cls: 'pink' },
+          { icon: '', label: 'Pedidos Totales', value: stats?.totalVentas || 0, cls: 'coral' },
+          { icon: '', label: 'Productos Activos', value: stats?.totalProductos || 0, cls: 'green' },
+          { icon: '', label: 'Pendientes', value: stats?.totalPendientes || 0, cls: 'blue' },
         ].map(s => (
           <div key={s.label} className="stat-card">
             <div className={`stat-icon ${s.cls}`}>{s.icon}</div>
@@ -48,12 +48,12 @@ export default function SellerDashboard() {
       </div>
 
       <div style={{ background: 'white', borderRadius: 16, padding: 24, boxShadow: '0 4px 15px rgba(232,99,122,0.08)' }}>
-        <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, marginBottom: 16 }}>⚡ Acciones Rápidas</h3>
+        <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, marginBottom: 16 }}> Acciones Rápidas</h3>
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-          <Link to="/vendedor/productos" className="btn btn-secondary btn-sm">🛍️ Gestionar Productos</Link>
-          <Link to="/vendedor/categorias" className="btn btn-secondary btn-sm">🏷️ Categorías</Link>
-          <Link to="/vendedor/pedidos" className="btn btn-secondary btn-sm">📦 Ver Pedidos</Link>
-          <Link to="/vendedor/estadisticas" className="btn btn-secondary btn-sm">📈 Estadísticas</Link>
+          <Link to="/vendedor/productos" className="btn btn-secondary btn-sm"> Gestionar Productos</Link>
+          <Link to="/vendedor/categorias" className="btn btn-secondary btn-sm">TAG️ Categorías</Link>
+          <Link to="/vendedor/pedidos" className="btn btn-secondary btn-sm"> Ver Pedidos</Link>
+          <Link to="/vendedor/estadisticas" className="btn btn-secondary btn-sm"> Estadísticas</Link>
         </div>
       </div>
     </AdminLayout>

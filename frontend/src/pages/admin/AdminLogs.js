@@ -3,11 +3,11 @@ import AdminLayout from '../../components/shared/AdminLayout';
 import { logsService } from '../../utils/api';
 
 const eventoBadge = {
-  ingreso: { bg: '#D4EDDA', color: '#155724', icon: '🔑' },
-  salida: { bg: '#D1ECF1', color: '#0C5460', icon: '🚪' },
-  registro: { bg: '#CCE5FF', color: '#004085', icon: '✨' },
-  intento_fallido: { bg: '#F8D7DA', color: '#721C24', icon: '⛔' },
-  cambio_password: { bg: '#FFF3CD', color: '#856404', icon: '🔒' },
+  ingreso: { bg: '#D4EDDA', color: '#155724', icon: '' },
+  salida: { bg: '#D1ECF1', color: '#0C5460', icon: '' },
+  registro: { bg: '#CCE5FF', color: '#004085', icon: '' },
+  intento_fallido: { bg: '#F8D7DA', color: '#721C24', icon: 'BLOQ' },
+  cambio_password: { bg: '#FFF3CD', color: '#856404', icon: '' },
 };
 
 export default function AdminLogs() {
@@ -51,11 +51,11 @@ export default function AdminLogs() {
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16, marginBottom: 28 }}>
         {[
-          { icon: '📊', label: 'Total Eventos', value: logsAcceso.length, color: '#E8637A' },
-          { icon: '🔑', label: 'Ingresos', value: logsAcceso.filter(l => l.evento === 'ingreso').length, color: '#27ae60' },
-          { icon: '🚪', label: 'Salidas', value: logsAcceso.filter(l => l.evento === 'salida').length, color: '#3498db' },
-          { icon: '⛔', label: 'Intentos Fallidos', value: logsAcceso.filter(l => l.evento === 'intento_fallido').length, color: '#e74c3c' },
-          { icon: '⚡', label: 'Acciones', value: logsActividad.length, color: '#FF8C69' },
+          { icon: '', label: 'Total Eventos', value: logsAcceso.length, color: '#E8637A' },
+          { icon: '', label: 'Ingresos', value: logsAcceso.filter(l => l.evento === 'ingreso').length, color: '#27ae60' },
+          { icon: '', label: 'Salidas', value: logsAcceso.filter(l => l.evento === 'salida').length, color: '#3498db' },
+          { icon: 'BLOQ', label: 'Intentos Fallidos', value: logsAcceso.filter(l => l.evento === 'intento_fallido').length, color: '#e74c3c' },
+          { icon: '', label: 'Acciones', value: logsActividad.length, color: '#FF8C69' },
         ].map(s => (
           <div key={s.label} style={{ background: 'white', borderRadius: 12, padding: '16px 20px', boxShadow: '0 4px 15px rgba(232,99,122,0.08)', textAlign: 'center' }}>
             <div style={{ fontSize: 28 }}>{s.icon}</div>
@@ -67,7 +67,7 @@ export default function AdminLogs() {
 
       {/* Tabs */}
       <div style={{ display: 'flex', gap: 0, marginBottom: 24, background: 'white', borderRadius: 12, padding: 6, boxShadow: '0 4px 15px rgba(232,99,122,0.08)', width: 'fit-content' }}>
-        {[{ key: 'acceso', label: '🔐 Log de Acceso' }, { key: 'actividad', label: '⚡ Log de Actividad' }].map(tab => (
+        {[{ key: 'acceso', label: 'SEGURO Log de Acceso' }, { key: 'actividad', label: ' Log de Actividad' }].map(tab => (
           <button key={tab.key} onClick={() => setActiveTab(tab.key)}
             style={{ padding: '10px 24px', border: 'none', cursor: 'pointer', borderRadius: 8, fontFamily: "'Poppins', sans-serif", fontSize: 14, fontWeight: activeTab === tab.key ? 600 : 400, background: activeTab === tab.key ? '#E8637A' : 'none', color: activeTab === tab.key ? 'white' : '#9B7B84', transition: 'all 0.2s' }}>
             {tab.label}
@@ -77,7 +77,7 @@ export default function AdminLogs() {
 
       {/* Filters */}
       <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
-        <input type="text" placeholder="🔍 Buscar por email, IP, acción..." value={search} onChange={e => setSearch(e.target.value)} className="form-control" style={{ maxWidth: 300 }} />
+        <input type="text" placeholder=" Buscar por email, IP, acción..." value={search} onChange={e => setSearch(e.target.value)} className="form-control" style={{ maxWidth: 300 }} />
         {activeTab === 'acceso' && (
           <select className="form-control" style={{ maxWidth: 200 }} value={filterEvento} onChange={e => setFilterEvento(e.target.value)}>
             <option value="">Todos los eventos</option>
@@ -94,7 +94,7 @@ export default function AdminLogs() {
             {modulosUnicos.map(m => <option key={m} value={m}>{m}</option>)}
           </select>
         )}
-        <button className="btn btn-secondary btn-sm" onClick={loadAll}>🔄 Actualizar</button>
+        <button className="btn btn-secondary btn-sm" onClick={loadAll}> Actualizar</button>
       </div>
 
       {loading ? <div className="flex-center" style={{ padding: 60 }}><div className="spinner" /></div> : (
@@ -107,7 +107,7 @@ export default function AdminLogs() {
                 </thead>
                 <tbody>
                   {filteredAcceso.map(log => {
-                    const b = eventoBadge[log.evento] || { bg: '#F0E0E5', color: '#5C3D47', icon: '📝' };
+                    const b = eventoBadge[log.evento] || { bg: '#F0E0E5', color: '#5C3D47', icon: '' };
                     return (
                       <tr key={log.id}>
                         <td>

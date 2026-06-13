@@ -50,7 +50,7 @@ export default function LoginPage() {
           <p style={S.tagline}>Limpieza & Belleza</p>
           <p style={S.desc}>Tu tienda de confianza para productos de limpieza y belleza en Bolivia.</p>
           <div style={S.features}>
-            {['✨ Productos de calidad', '🚚 Envío a domicilio', '💳 Pago seguro', '🎁 Ofertas exclusivas'].map(f => (
+            {['Productos de calidad', 'Envío a domicilio', 'Pago seguro', 'Ofertas exclusivas'].map(f => (
               <div key={f} style={S.feature}>{f}</div>
             ))}
           </div>
@@ -96,7 +96,7 @@ export default function LoginPage() {
                 />
                 <button type="button" onClick={() => setShowPass(!showPass)}
                   style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', fontSize: 18 }}>
-                  {showPass ? '🙈' : '👁️'}
+                  {showPass ? 'Ocultar' : 'Ver'}
                 </button>
               </div>
             </div>
@@ -110,7 +110,7 @@ export default function LoginPage() {
                   style={{ borderRadius: 8, overflow: 'hidden', flexShrink: 0 }}
                 />
                 <button type="button" onClick={loadCaptcha} title="Recargar captcha"
-                  style={S.reloadBtn}>🔄</button>
+                  style={S.reloadBtn}></button>
               </div>
               <input
                 type="text"
@@ -124,7 +124,7 @@ export default function LoginPage() {
             </div>
 
             <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '14px', fontSize: 16, marginTop: 8 }} disabled={loading}>
-              {loading ? '⏳ Ingresando...' : '🔑 Iniciar Sesión'}
+              {loading ? 'Ingresando...' : 'Iniciar Sesión'}
             </button>
           </form>
 

@@ -71,7 +71,7 @@ export default function AdminUsuarios() {
   return (
     <AdminLayout title="Usuarios" subtitle="Gestiona los usuarios del sistema">
       <div className="flex-between mb-24">
-        <input type="text" placeholder="🔍 Buscar usuario..." value={search} onChange={e => setSearch(e.target.value)} className="form-control" style={{ maxWidth: 320 }} />
+        <input type="text" placeholder=" Buscar usuario..." value={search} onChange={e => setSearch(e.target.value)} className="form-control" style={{ maxWidth: 320 }} />
         <button className="btn btn-primary" onClick={openCreate}>+ Nuevo Usuario</button>
       </div>
 
@@ -102,8 +102,8 @@ export default function AdminUsuarios() {
                   <td style={{ fontSize: 12, color: '#9B7B84' }}>{new Date(u.created_at).toLocaleDateString('es-BO')}</td>
                   <td>
                     <div style={{ display: 'flex', gap: 6 }}>
-                      <button className="btn btn-sm btn-secondary" onClick={() => openEdit(u)}>✏️</button>
-                      <button className="btn btn-sm btn-danger" onClick={() => handleDelete(u.id, u.email)}>🗑️</button>
+                      <button className="btn btn-sm btn-secondary" onClick={() => openEdit(u)}></button>
+                      <button className="btn btn-sm btn-danger" onClick={() => handleDelete(u.id, u.email)}></button>
                     </div>
                   </td>
                 </tr>
@@ -168,7 +168,7 @@ export default function AdminUsuarios() {
                       style={{ paddingRight: 44 }}
                     />
                     <button type="button" onClick={() => setShowPass(s => !s)} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', fontSize: 18 }}>
-                      {showPass ? '🙈' : '👁️'}
+                      {showPass ? 'Ocultar' : 'Ver'}
                     </button>
                   </div>
                   {form.password && strength && (
@@ -183,7 +183,7 @@ export default function AdminUsuarios() {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" onClick={() => setModal(false)}>Cancelar</button>
-                <button type="submit" className="btn btn-primary" disabled={saving}>{saving ? '⏳ Guardando...' : '💾 Guardar'}</button>
+                <button type="submit" className="btn btn-primary" disabled={saving}>{saving ? ' Guardando...' : 'Guardar Guardar'}</button>
               </div>
             </form>
           </div>

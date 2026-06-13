@@ -72,7 +72,7 @@ export default function StorePage() {
                 onClick={() => handleCat('')}
                 style={{ ...S.catBtn, ...(selectedCat === '' ? S.catBtnActive : {}) }}
               >
-                🛍️ Todos los productos
+                 Todos los productos
               </button>
               {categorias.map(cat => (
                 <button
@@ -93,7 +93,7 @@ export default function StorePage() {
             {/* Search */}
             <div style={S.searchBar}>
               <input
-                type="text" placeholder="🔍 Buscar producto..."
+                type="text" placeholder="Buscar producto..."
                 value={search} onChange={handleSearch}
                 style={S.searchInput}
               />
@@ -107,7 +107,7 @@ export default function StorePage() {
               </div>
             ) : productos.length === 0 ? (
               <div style={S.empty}>
-                <div style={{ fontSize: 64 }}>🔍</div>
+                <div style={{ fontSize: 64 }}></div>
                 <h3>No encontramos productos</h3>
                 <p style={{ color: '#9B7B84' }}>Prueba con otra búsqueda o categoría</p>
               </div>
@@ -147,7 +147,7 @@ function ProductCard({ prod }) {
     if (user.rol_nombre !== 'cliente') return toast.info('Solo los clientes pueden agregar al carrito');
     try {
       await addItem(prod.id, 1);
-      toast.success('Agregado al carrito 🛒');
+      toast.success('Agregado al carrito Agregar');
     } catch { toast.error('Error al agregar'); }
   };
 
@@ -157,7 +157,7 @@ function ProductCard({ prod }) {
         <div style={S.imgWrap}>
           {prod.imagen
             ? <img src={`${API_BASE}${prod.imagen}`} alt={prod.nombre} style={S.img} />
-            : <div style={S.imgPlaceholder}>🧴</div>
+            : <div style={S.imgPlaceholder}></div>
           }
           {prod.stock <= prod.stock_minimo && prod.stock > 0 && (
             <div style={S.stockWarn}>Pocas unidades</div>
@@ -174,7 +174,7 @@ function ProductCard({ prod }) {
               onClick={handleAdd}
               disabled={prod.stock === 0}
               style={{ ...S.addBtn, opacity: prod.stock === 0 ? 0.4 : 1 }}
-            >🛒</button>
+            >Agregar</button>
           </div>
         </div>
       </div>

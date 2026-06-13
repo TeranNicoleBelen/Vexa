@@ -50,6 +50,19 @@ const QUICK_QUESTIONS = [
   '¿Qué productos venden?',
 ];
 
+
+function LunaIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="11" cy="8" r="5" fill="rgba(255,182,193,0.9)"/>
+      <path d="M4 20 Q4 14 11 14 Q18 14 18 20" fill="rgba(255,182,193,0.7)"/>
+      <circle cx="9" cy="7" r="1" fill="rgba(255,255,255,0.6)"/>
+      <circle cx="13" cy="7" r="1" fill="rgba(255,255,255,0.6)"/>
+      <path d="M9 10 Q11 12 13 10" stroke="rgba(255,255,255,0.7)" strokeWidth="0.8" fill="none" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
 export default function AgenteIA() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
@@ -107,7 +120,7 @@ export default function AgenteIA() {
         }}
         title="Agente LUNA - VEXA"
       >
-        {open ? '✕' : '🤖'}
+        {open ? '✕' : <LunaIcon />}
       </button>
 
       {open && (
@@ -120,7 +133,7 @@ export default function AgenteIA() {
           overflow: 'hidden', animation: 'fadeIn 0.3s ease',
         }}>
           <div style={{ background: 'linear-gradient(135deg, #E8637A, #FF8C69)', padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🤖</div>
+            <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><LunaIcon /></div>
             <div>
               <div style={{ color: 'white', fontWeight: 700, fontSize: 15, fontFamily: "'Poppins', sans-serif" }}>Luna — VEXA</div>
               <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 11 }}>Asistente virtual • En línea ✓</div>

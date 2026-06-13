@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import Navbar from '../../components/shared/Navbar';
 import Footer from '../../components/shared/Footer';
 import { categoriasService, productosService } from '../../utils/api';
+import {
+  IconLipstick, IconPerfume, IconCream, IconBrush, IconFlower, IconMirror,
+  IconTruck, IconShield, IconCard, IconChat, IconCart
+} from '../../components/shared/CosmeticIcons';
 
 export default function HomePage() {
   const [categorias, setCategorias] = useState([]);
@@ -33,7 +37,10 @@ export default function HomePage() {
         <div style={S.heroBg} />
         <div style={S.heroContent}>
           <div style={S.heroText}>
-            <span style={S.heroBadge}>✨ Nueva colección 2024</span>
+            <span style={S.heroBadge}>
+              <IconFlower size={14} color="#FFB6C1" />
+              &nbsp; Nueva colección 2024
+            </span>
             <h1 style={S.heroTitle}>
               Belleza que<br />
               <span style={S.heroAccent}>transforma</span><br />
@@ -43,11 +50,11 @@ export default function HomePage() {
               Descubre los mejores productos de limpieza del hogar y cuidado personal. Calidad premium al mejor precio, directo a tu puerta.
             </p>
             <div style={S.heroActions}>
-              <Link to="/tienda" className="btn btn-primary btn-lg">🛍️ Ir a la Tienda</Link>
+              <Link to="/tienda" className="btn btn-primary btn-lg">Ir a la Tienda</Link>
               <Link to="/nosotros" className="btn btn-secondary btn-lg">Conocer más</Link>
             </div>
             <div style={S.heroStats}>
-              {[['500+', 'Productos'], ['10K+', 'Clientes'], ['5⭐', 'Calificación'], ['24h', 'Entrega']].map(([n, l]) => (
+              {[['500+', 'Productos'], ['10K+', 'Clientes'], ['5★', 'Calificación'], ['24h', 'Entrega']].map(([n, l]) => (
                 <div key={l} style={S.heroStat}>
                   <strong style={S.heroStatNum}>{n}</strong>
                   <span style={S.heroStatLabel}>{l}</span>
@@ -57,9 +64,13 @@ export default function HomePage() {
           </div>
           <div style={S.heroImage}>
             <div style={S.heroImgCircle}>
-              <div style={S.heroEmoji}>💄</div>
-              <div style={{ ...S.floatingBadge, top: 30, right: -20 }}>🌸 Nuevo</div>
-              <div style={{ ...S.floatingBadge, bottom: 40, left: -20, background: '#FF8C69' }}>🚚 Envío gratis</div>
+              <HeroIllustration />
+              <div style={{ ...S.floatingBadge, top: 30, right: -20 }}>
+                <IconFlower size={12} color="white" /> Nuevo
+              </div>
+              <div style={{ ...S.floatingBadge, bottom: 40, left: -20, background: '#FF8C69' }}>
+                <IconTruck size={12} color="white" /> Envío gratis
+              </div>
             </div>
           </div>
         </div>
@@ -82,7 +93,7 @@ export default function HomePage() {
               <Link to={`/tienda/categoria/${cat.id}`} key={cat.id} style={{ textDecoration: 'none' }}>
                 <div style={{ ...S.catCard, animationDelay: `${i * 0.1}s` }} className="animate-fadeIn">
                   <div style={{ ...S.catIcon, background: cat.color || '#FFB6C1' }}>
-                    {catEmojis[cat.nombre] || '🧴'}
+                    {catIcons[cat.nombre] || <IconCream size={32} color="white" />}
                   </div>
                   <h3 style={S.catName}>{cat.nombre}</h3>
                   <p style={S.catCount}>{cat.total_productos || 0} productos</p>
@@ -98,7 +109,10 @@ export default function HomePage() {
         <div className="container">
           <div style={S.bannerContent}>
             <div>
-              <h2 style={S.bannerTitle}>🚚 Envío GRATIS</h2>
+              <h2 style={S.bannerTitle}>
+                <IconTruck size={28} color="white" style={{ verticalAlign: 'middle', marginRight: 8 }} />
+                &nbsp;Envío GRATIS
+              </h2>
               <p style={S.bannerDesc}>En pedidos mayores a <strong>200 Bs</strong> dentro de La Paz</p>
             </div>
             <Link to="/tienda" className="btn btn-black btn-lg">Aprovechar ahora</Link>
@@ -158,6 +172,49 @@ export default function HomePage() {
   );
 }
 
+function HeroIllustration() {
+  return (
+    <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Fondo decorativo */}
+      <circle cx="100" cy="100" r="90" fill="rgba(255,182,193,0.08)" />
+      {/* Frasco de perfume grande */}
+      <rect x="70" y="80" width="60" height="80" rx="12" fill="rgba(232,99,122,0.7)"/>
+      <rect x="80" y="60" width="40" height="24" rx="6" fill="rgba(232,99,122,0.85)"/>
+      <rect x="88" y="48" width="24" height="16" rx="4" fill="rgba(255,182,193,0.9)"/>
+      <rect x="82" y="44" width="36" height="8" rx="4" fill="rgba(232,99,122,0.6)"/>
+      <ellipse cx="100" cy="110" rx="18" ry="12" fill="rgba(255,255,255,0.12)"/>
+      {/* Línea decorativa en frasco */}
+      <rect x="76" y="92" width="48" height="2" rx="1" fill="rgba(255,255,255,0.2)"/>
+      {/* Etiqueta */}
+      <rect x="78" y="100" width="44" height="30" rx="4" fill="rgba(255,255,255,0.15)"/>
+      <rect x="84" y="106" width="32" height="3" rx="1.5" fill="rgba(255,255,255,0.4)"/>
+      <rect x="88" y="113" width="24" height="2" rx="1" fill="rgba(255,255,255,0.25)"/>
+      {/* Lipstick izquierda */}
+      <rect x="35" y="100" width="18" height="50" rx="4" fill="rgba(255,140,105,0.8)"/>
+      <path d="M35 100 Q44 88 53 100" fill="rgba(255,140,105,0.9)"/>
+      <rect x="37" y="108" width="14" height="3" rx="1.5" fill="rgba(255,255,255,0.2)"/>
+      {/* Lipstick derecha */}
+      <rect x="147" y="108" width="18" height="48" rx="4" fill="rgba(255,182,193,0.8)"/>
+      <path d="M147 108 Q156 96 165 108" fill="rgba(255,182,193,0.9)"/>
+      {/* Flores decorativas */}
+      <circle cx="40" cy="70" r="8" fill="rgba(255,182,193,0.4)"/>
+      <circle cx="40" cy="58" r="5" fill="rgba(255,182,193,0.3)"/>
+      <circle cx="30" cy="66" r="5" fill="rgba(255,182,193,0.3)"/>
+      <circle cx="50" cy="66" r="5" fill="rgba(255,182,193,0.3)"/>
+      <circle cx="34" cy="78" r="5" fill="rgba(255,182,193,0.3)"/>
+      <circle cx="46" cy="78" r="5" fill="rgba(255,182,193,0.3)"/>
+      <circle cx="40" cy="70" r="4" fill="rgba(232,99,122,0.6)"/>
+      {/* Brillo en perfume */}
+      <circle cx="82" cy="72" r="4" fill="rgba(255,255,255,0.3)"/>
+      <circle cx="158" cy="60" r="6" fill="rgba(255,182,193,0.3)"/>
+      <circle cx="158" cy="51" r="4" fill="rgba(255,182,193,0.2)"/>
+      <circle cx="151" cy="57" r="4" fill="rgba(255,182,193,0.2)"/>
+      <circle cx="165" cy="57" r="4" fill="rgba(255,182,193,0.2)"/>
+      <circle cx="158" cy="60" r="3" fill="rgba(232,99,122,0.5)"/>
+    </svg>
+  );
+}
+
 function ProductCard({ prod, delay }) {
   const API = process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:5000';
   return (
@@ -166,7 +223,9 @@ function ProductCard({ prod, delay }) {
         <div style={S.prodImgWrap}>
           {prod.imagen
             ? <img src={`${API}${prod.imagen}`} alt={prod.nombre} style={S.prodImg} />
-            : <div style={S.prodImgPlaceholder}>{catEmojis[prod.categoria_nombre] || '🧴'}</div>
+            : <div style={S.prodImgPlaceholder}>
+                <CosmeticPlaceholder />
+              </div>
           }
           <div style={S.prodBadge}>{prod.categoria_nombre}</div>
         </div>
@@ -175,13 +234,42 @@ function ProductCard({ prod, delay }) {
           <h3 style={S.prodName}>{prod.nombre}</h3>
           <div style={S.prodFooter}>
             <span style={S.prodPrice}>Bs {parseFloat(prod.precio).toFixed(2)}</span>
-            <div style={S.addBtn}>🛒</div>
+            <div style={S.addBtn}>
+              <IconCart size={16} color="white" />
+            </div>
           </div>
         </div>
       </div>
     </Link>
   );
 }
+
+function CosmeticPlaceholder() {
+  return (
+    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="28" y="30" width="24" height="36" rx="6" fill="rgba(232,99,122,0.6)"/>
+      <rect x="32" y="20" width="16" height="12" rx="3" fill="rgba(232,99,122,0.7)"/>
+      <rect x="35" y="15" width="10" height="8" rx="2" fill="rgba(255,182,193,0.8)"/>
+      <ellipse cx="40" cy="44" rx="8" ry="5" fill="rgba(255,255,255,0.15)"/>
+    </svg>
+  );
+}
+
+const catIcons = {
+  'Limpieza del Hogar': <IconBrush size={32} color="white" />,
+  'Cuidado Personal': <IconCream size={32} color="white" />,
+  'Belleza': <IconLipstick size={32} color="white" />,
+  'Cabello': <IconBrush size={32} color="white" />,
+  'Skin Care': <IconMirror size={32} color="white" />,
+  'Fragancias': <IconPerfume size={32} color="white" />,
+};
+
+const whyUs = [
+  { icon: <IconShield size={44} color="#E8637A" />, title: 'Calidad Garantizada', desc: 'Todos nuestros productos son originales y de las mejores marcas del mercado.' },
+  { icon: <IconTruck size={44} color="#E8637A" />, title: 'Envío Rápido', desc: 'Entregamos en 24 horas dentro de La Paz. Envío gratis en pedidos mayores a 200 Bs.' },
+  { icon: <IconCard size={44} color="#E8637A" />, title: 'Pago Seguro', desc: 'Acepta QR, tarjeta de crédito/débito y efectivo en tienda.' },
+  { icon: <IconChat size={44} color="#E8637A" />, title: 'Atención 24/7', desc: 'Nuestro agente virtual Luna está disponible en todo momento para ayudarte.' },
+];
 
 const defaultCats = [
   { id: 1, nombre: 'Limpieza del Hogar', color: '#FFB6C1', total_productos: 0 },
@@ -190,18 +278,6 @@ const defaultCats = [
   { id: 4, nombre: 'Cabello', color: '#FFC0CB', total_productos: 0 },
   { id: 5, nombre: 'Skin Care', color: '#FFDAB9', total_productos: 0 },
   { id: 6, nombre: 'Fragancias', color: '#FFE4E1', total_productos: 0 },
-];
-
-const catEmojis = {
-  'Limpieza del Hogar': '🧹', 'Cuidado Personal': '🧴', 'Belleza': '💄',
-  'Cabello': '💇', 'Skin Care': '✨', 'Fragancias': '🌸',
-};
-
-const whyUs = [
-  { icon: '🏆', title: 'Calidad Garantizada', desc: 'Todos nuestros productos son originales y de las mejores marcas del mercado.' },
-  { icon: '🚚', title: 'Envío Rápido', desc: 'Entregamos en 24 horas dentro de La Paz. Envío gratis en pedidos mayores a 200 Bs.' },
-  { icon: '💳', title: 'Pago Seguro', desc: 'Acepta QR, tarjeta de crédito/débito y efectivo en tienda.' },
-  { icon: '🔄', title: 'Atención 24/7', desc: 'Nuestro agente virtual Luna está disponible en todo momento para ayudarte.' },
 ];
 
 const S = {
@@ -221,7 +297,8 @@ const S = {
   },
   heroText: { flex: 1, maxWidth: 560 },
   heroBadge: {
-    display: 'inline-block', background: 'rgba(255,182,193,0.15)',
+    display: 'inline-flex', alignItems: 'center', gap: 6,
+    background: 'rgba(255,182,193,0.15)',
     color: '#FFB6C1', padding: '8px 18px', borderRadius: 30, fontSize: 13,
     fontWeight: 500, marginBottom: 24, border: '1px solid rgba(255,182,193,0.3)',
   },
@@ -245,13 +322,13 @@ const S = {
     background: 'radial-gradient(circle, rgba(255,182,193,0.2), rgba(255,140,105,0.1))',
     border: '2px solid rgba(255,182,193,0.2)',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
-    fontSize: 120, position: 'relative', animation: 'float 3s ease-in-out infinite',
+    position: 'relative', animation: 'float 3s ease-in-out infinite',
   },
-  heroEmoji: { fontSize: 120, animation: 'float 3s ease-in-out infinite' },
   floatingBadge: {
     position: 'absolute', background: '#E8637A', color: 'white',
     padding: '8px 14px', borderRadius: 20, fontSize: 13, fontWeight: 600,
     boxShadow: '0 4px 15px rgba(232,99,122,0.4)', whiteSpace: 'nowrap',
+    display: 'flex', alignItems: 'center', gap: 4,
   },
   wave: { position: 'absolute', bottom: 0, left: 0, right: 0, lineHeight: 0 },
   section: { padding: '80px 0', background: 'white' },
@@ -264,12 +341,12 @@ const S = {
     boxShadow: '0 4px 20px rgba(232,99,122,0.08)', cursor: 'pointer',
     transition: 'all 0.3s', border: '2px solid transparent',
   },
-  catIcon: { width: 70, height: 70, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, margin: '0 auto 16px' },
+  catIcon: { width: 70, height: 70, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' },
   catName: { fontSize: 14, fontWeight: 600, color: '#1A1A1A', marginBottom: 4 },
   catCount: { fontSize: 12, color: '#9B7B84' },
   banner: { background: 'linear-gradient(135deg, #E8637A, #FF8C69)', padding: '40px 0' },
   bannerContent: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 20 },
-  bannerTitle: { fontFamily: "'Playfair Display', serif", fontSize: 32, color: 'white', marginBottom: 8 },
+  bannerTitle: { fontFamily: "'Playfair Display', serif", fontSize: 32, color: 'white', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 },
   bannerDesc: { fontSize: 16, color: 'rgba(255,255,255,0.9)' },
   prodGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: 24 },
   prodCard: {
@@ -282,7 +359,7 @@ const S = {
   prodImgPlaceholder: {
     width: '100%', height: '100%',
     background: 'linear-gradient(135deg, #FFD1DC, #FFDAB9)',
-    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 60,
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
   },
   prodBadge: {
     position: 'absolute', top: 12, left: 12,
@@ -297,11 +374,11 @@ const S = {
   addBtn: {
     width: 36, height: 36, borderRadius: '50%',
     background: 'linear-gradient(135deg, #E8637A, #FF8C69)',
-    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16,
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
   },
   whyGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 24 },
   whyCard: { background: 'white', borderRadius: 16, padding: 32, textAlign: 'center', boxShadow: '0 4px 20px rgba(232,99,122,0.08)' },
-  whyIcon: { fontSize: 44, marginBottom: 16 },
+  whyIcon: { marginBottom: 16, display: 'flex', justifyContent: 'center' },
   whyTitle: { fontFamily: "'Playfair Display', serif", fontSize: 18, fontWeight: 600, color: '#1A1A1A', marginBottom: 10 },
   whyDesc: { fontSize: 14, color: '#9B7B84', lineHeight: 1.7 },
   cta: { background: 'linear-gradient(135deg, #1A1A1A, #3D1A24)', padding: '80px 0' },

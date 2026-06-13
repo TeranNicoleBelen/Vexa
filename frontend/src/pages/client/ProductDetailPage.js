@@ -30,7 +30,7 @@ export default function ProductDetailPage() {
     if (user.rol_nombre !== 'cliente') return toast.info('Solo los clientes pueden comprar');
     try {
       await addItem(product.id, cantidad);
-      toast.success('Agregado al carrito 🛒');
+      toast.success('Agregado al carrito Agregar al carrito');
     } catch { toast.error('Error'); }
   };
 
@@ -54,7 +54,7 @@ export default function ProductDetailPage() {
             <div style={S.imgWrap}>
               {product.imagen
                 ? <img src={`${API_BASE}${product.imagen}`} alt={product.nombre} style={S.img} />
-                : <div style={S.imgPlaceholder}>🧴</div>
+                : <div style={S.imgPlaceholder}></div>
               }
             </div>
           </div>
@@ -68,8 +68,8 @@ export default function ProductDetailPage() {
             {product.descripcion && <p style={S.desc}>{product.descripcion}</p>}
 
             <div style={S.metaGrid}>
-              <div style={S.meta}><span>📦 Stock:</span> <strong style={{ color: product.stock > 5 ? '#27ae60' : '#e74c3c' }}>{product.stock} unidades</strong></div>
-              {product.codigo && <div style={S.meta}><span>🔖 Código:</span> <strong>{product.codigo}</strong></div>}
+              <div style={S.meta}><span> Stock:</span> <strong style={{ color: product.stock > 5 ? '#27ae60' : '#e74c3c' }}>{product.stock} unidades</strong></div>
+              {product.codigo && <div style={S.meta}><span> Código:</span> <strong>{product.codigo}</strong></div>}
             </div>
 
             {product.stock > 0 ? (
@@ -83,17 +83,17 @@ export default function ProductDetailPage() {
                   </div>
                 </div>
                 <button onClick={handleAdd} className="btn btn-primary btn-lg" style={{ width: '100%', marginTop: 8 }}>
-                  🛒 Agregar al Carrito — Bs {(parseFloat(product.precio) * cantidad).toFixed(2)}
+                  Agregar al carrito Agregar al Carrito — Bs {(parseFloat(product.precio) * cantidad).toFixed(2)}
                 </button>
               </>
             ) : (
-              <div style={S.outOfStock}>⚠️ Producto agotado temporalmente</div>
+              <div style={S.outOfStock}>! Producto agotado temporalmente</div>
             )}
 
             <div style={S.promos}>
-              <div style={S.promoItem}>🚚 Envío gratis en pedidos mayores a 200 Bs</div>
-              <div style={S.promoItem}>💳 Pago con QR, tarjeta o efectivo</div>
-              <div style={S.promoItem}>✅ Producto 100% original y garantizado</div>
+              <div style={S.promoItem}> Envío gratis en pedidos mayores a 200 Bs</div>
+              <div style={S.promoItem}> Pago con QR, tarjeta o efectivo</div>
+              <div style={S.promoItem}>✓ Producto 100% original y garantizado</div>
             </div>
           </div>
         </div>

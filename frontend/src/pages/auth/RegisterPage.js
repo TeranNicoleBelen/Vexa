@@ -61,7 +61,7 @@ export default function RegisterPage() {
           <p style={S.tagline}>Únete a nuestra familia</p>
           <p style={S.desc}>Regístrate y disfruta de los mejores productos de limpieza y belleza con envíos a domicilio, promociones exclusivas y más.</p>
           <div style={S.perks}>
-            {['🛍️ Acceso a toda la tienda', '📦 Historial de pedidos', '💌 Ofertas exclusivas', '⭐ Programa de puntos'].map(p => (
+            {['Acceso a toda la tienda', 'Historial de pedidos', 'Ofertas exclusivas', 'Programa de puntos'].map(p => (
               <div key={p} style={S.perk}>{p}</div>
             ))}
           </div>
@@ -107,7 +107,7 @@ export default function RegisterPage() {
                 />
                 <button type="button" onClick={() => setShowPass(!showPass)}
                   style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', fontSize: 18 }}>
-                  {showPass ? '🙈' : '👁️'}
+                  {showPass ? 'Ocultar' : 'Ver'}
                 </button>
               </div>
               {form.password && strength && (
@@ -156,7 +156,7 @@ export default function RegisterPage() {
             </div>
 
             <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '14px', fontSize: 16, marginTop: 8 }} disabled={loading}>
-              {loading ? '⏳ Creando cuenta...' : '✨ Crear Cuenta'}
+              {loading ? 'Creando cuenta...' : 'Crear Cuenta'}
             </button>
           </form>
 

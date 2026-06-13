@@ -71,13 +71,13 @@ export default function AdminPedidos() {
   return (
     <AdminLayout title="Pedidos" subtitle="Gestiona y actualiza el estado de los pedidos">
       <div style={{ display: 'flex', gap: 16, marginBottom: 24, flexWrap: 'wrap' }}>
-        <input type="text" placeholder="🔍 Buscar por código o cliente..." value={search} onChange={e => setSearch(e.target.value)} className="form-control" style={{ maxWidth: 300 }} />
+        <input type="text" placeholder=" Buscar por código o cliente..." value={search} onChange={e => setSearch(e.target.value)} className="form-control" style={{ maxWidth: 300 }} />
         <select className="form-control" style={{ maxWidth: 200 }} value={filterEstado} onChange={e => setFilterEstado(e.target.value)}>
           <option value="">Todos los estados</option>
           {ESTADOS.map(e => <option key={e} value={e}>{e.charAt(0).toUpperCase() + e.slice(1)}</option>)}
         </select>
         <a href={reportesService.getVentasPDF()} target="_blank" rel="noreferrer" className="btn btn-secondary">
-          📄 Exportar PDF
+          PDF Exportar PDF
         </a>
       </div>
 
@@ -112,9 +112,9 @@ export default function AdminPedidos() {
                     <td style={{ fontSize: 12, color: '#9B7B84', whiteSpace: 'nowrap' }}>{new Date(p.created_at).toLocaleDateString('es-BO')}</td>
                     <td>
                       <div style={{ display: 'flex', gap: 6 }}>
-                        <button className="btn btn-sm btn-secondary" onClick={() => openDetail(p.id)}>👁️ Ver</button>
-                        <a href={reportesService.getPedidoPDF(p.id)} target="_blank" rel="noreferrer" className="btn btn-sm" style={{ background: '#F0E0E5', color: '#5C3D47', textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}>📄</a>
-                        <button className="btn btn-sm btn-danger" onClick={() => handleDelete(p.id)}>🗑️</button>
+                        <button className="btn btn-sm btn-secondary" onClick={() => openDetail(p.id)}>Ver Ver</button>
+                        <a href={reportesService.getPedidoPDF(p.id)} target="_blank" rel="noreferrer" className="btn btn-sm" style={{ background: '#F0E0E5', color: '#5C3D47', textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}>PDF</a>
+                        <button className="btn btn-sm btn-danger" onClick={() => handleDelete(p.id)}></button>
                       </div>
                     </td>
                   </tr>
@@ -137,13 +137,13 @@ export default function AdminPedidos() {
             <div className="modal-body">
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
                 <div style={S.infoBox}>
-                  <h4 style={S.infoTitle}>👤 Cliente</h4>
+                  <h4 style={S.infoTitle}> Cliente</h4>
                   <p><strong>{detailModal.cliente_nombre} {detailModal.cliente_apellido}</strong></p>
                   <p style={{ color: '#9B7B84', fontSize: 13 }}>{detailModal.cliente_email}</p>
                   <p style={{ color: '#9B7B84', fontSize: 13 }}>{detailModal.cliente_telefono || '-'}</p>
                 </div>
                 <div style={S.infoBox}>
-                  <h4 style={S.infoTitle}>📦 Entrega</h4>
+                  <h4 style={S.infoTitle}> Entrega</h4>
                   <p style={{ textTransform: 'capitalize' }}><strong>{detailModal.tipo_entrega}</strong></p>
                   {detailModal.tipo_entrega === 'envio' && (
                     <>
@@ -199,7 +199,7 @@ export default function AdminPedidos() {
               </div>
             </div>
             <div className="modal-footer">
-              <a href={reportesService.getPedidoPDF(detailModal.id)} target="_blank" rel="noreferrer" className="btn btn-secondary">📄 Descargar PDF</a>
+              <a href={reportesService.getPedidoPDF(detailModal.id)} target="_blank" rel="noreferrer" className="btn btn-secondary">PDF Descargar PDF</a>
               <button className="btn btn-primary" onClick={() => setDetailModal(null)}>Cerrar</button>
             </div>
           </div>

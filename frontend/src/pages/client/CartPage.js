@@ -17,10 +17,10 @@ export default function CartPage() {
     <div>
       <Navbar />
       <div className="container" style={{ padding: '40px 24px 80px' }}>
-        <h1 style={S.title}>🛒 Mi Carrito</h1>
+        <h1 style={S.title}>Carrito Mi Carrito</h1>
         {items.length === 0 ? (
           <div style={S.empty}>
-            <div style={{ fontSize: 80 }}>🛒</div>
+            <div style={{ fontSize: 80 }}>Carrito</div>
             <h2 style={{ fontFamily: "'Playfair Display', serif", marginBottom: 12 }}>Tu carrito está vacío</h2>
             <p style={{ color: '#9B7B84', marginBottom: 24 }}>Agrega productos desde la tienda</p>
             <Link to="/tienda" className="btn btn-primary btn-lg">Ir a la Tienda</Link>
@@ -46,7 +46,7 @@ export default function CartPage() {
               </div>
               {total < 200 && (
                 <div style={S.promoInfo}>
-                  💡 Agrega <strong>Bs {(200 - total).toFixed(2)}</strong> más para envío gratis
+                  Tip Agrega <strong>Bs {(200 - total).toFixed(2)}</strong> más para envío gratis
                 </div>
               )}
               <div style={S.divider} />
@@ -77,7 +77,7 @@ function CartItem({ item, onUpdate, onRemove }) {
       <div style={S.itemImg}>
         {item.imagen
           ? <img src={`${API_BASE}${item.imagen}`} alt={item.nombre} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          : <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #FFD1DC, #FFDAB9)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>🧴</div>
+          : <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #FFD1DC, #FFDAB9)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}></div>
         }
       </div>
       <div style={S.itemInfo}>

@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { toast } from 'react-toastify';
+import { IconCart, IconAdmin, IconStore, IconLogout, IconBox, IconKey, IconHome, IconShop } from './CosmeticIcons';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -18,15 +19,16 @@ export default function Navbar() {
     navigate('/');
   };
 
-  const isActive = (path) => location.pathname === path ? 'nav-link active' : 'nav-link';
-
   return (
     <nav style={styles.nav}>
       <div style={styles.container}>
         {/* Logo */}
         <Link to="/" style={styles.logo}>
-          <span style={styles.logoText}>VEXA</span>
-          <span style={styles.logoSub}>Limpieza & Belleza</span>
+          <LogoIcon />
+          <div>
+            <span style={styles.logoText}>VEXA</span>
+            <span style={styles.logoSub}>Limpieza & Belleza</span>
+          </div>
         </Link>
 
         {/* Desktop Links */}
@@ -42,7 +44,7 @@ export default function Navbar() {
             <>
               {user.rol_nombre === 'cliente' && (
                 <Link to="/carrito" style={styles.cartBtn}>
-                  🛒
+                  <IconCart size={22} color="#E8637A" />
                   {count > 0 && <span style={styles.cartBadge}>{count}</span>}
                 </Link>
               )}
@@ -63,21 +65,21 @@ export default function Navbar() {
                     </div>
                     {user.rol_nombre === 'cliente' && (
                       <Link to="/mis-pedidos" style={styles.dropdownItem} onClick={() => setUserMenuOpen(false)}>
-                        📦 Mis Pedidos
+                        <IconBox size={16} color="#E8637A" /> Mis Pedidos
                       </Link>
                     )}
                     {user.rol_nombre === 'admin' && (
                       <Link to="/admin" style={styles.dropdownItem} onClick={() => setUserMenuOpen(false)}>
-                        ⚙️ Panel Admin
+                        <IconAdmin size={16} color="#E8637A" /> Panel Admin
                       </Link>
                     )}
                     {user.rol_nombre === 'vendedor' && (
                       <Link to="/vendedor" style={styles.dropdownItem} onClick={() => setUserMenuOpen(false)}>
-                        🏪 Panel Vendedor
+                        <IconStore size={16} color="#E8637A" /> Panel Vendedor
                       </Link>
                     )}
                     <button style={{ ...styles.dropdownItem, color: '#e74c3c', border: 'none', background: 'none', cursor: 'pointer', width: '100%', textAlign: 'left' }} onClick={handleLogout}>
-                      🚪 Cerrar Sesión
+                      <IconLogout size={16} color="#e74c3c" /> Cerrar Sesión
                     </button>
                   </div>
                 )}
@@ -100,26 +102,65 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {menuOpen && (
         <div style={styles.mobileMenu}>
-          <Link to="/" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>🏠 Inicio</Link>
-          <Link to="/tienda" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>🛍️ Tienda</Link>
-          <Link to="/nosotros" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>💼 Nosotros</Link>
+          <Link to="/" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>
+            <IconHome size={18} color="#E8637A" /> Inicio
+          </Link>
+          <Link to="/tienda" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>
+            <IconShop size={18} color="#E8637A" /> Tienda
+          </Link>
+          <Link to="/nosotros" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>
+            <NosotrosIcon /> Nosotros
+          </Link>
           {user ? (
             <>
-              {user.rol_nombre === 'cliente' && <Link to="/carrito" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>🛒 Carrito ({count})</Link>}
-              {user.rol_nombre === 'cliente' && <Link to="/mis-pedidos" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>📦 Mis Pedidos</Link>}
-              {user.rol_nombre === 'admin' && <Link to="/admin" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>⚙️ Admin</Link>}
-              {user.rol_nombre === 'vendedor' && <Link to="/vendedor" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>🏪 Vendedor</Link>}
-              <button style={{ ...styles.mobileLink, border: 'none', background: 'none', color: '#e74c3c', textAlign: 'left', cursor: 'pointer' }} onClick={handleLogout}>🚪 Cerrar Sesión</button>
+              {user.rol_nombre === 'cliente' && <Link to="/carrito" style={styles.mobileLink} onClick={() => setMenuOpen(false)}><IconCart size={18} color="#E8637A" /> Carrito ({count})</Link>}
+              {user.rol_nombre === 'cliente' && <Link to="/mis-pedidos" style={styles.mobileLink} onClick={() => setMenuOpen(false)}><IconBox size={18} color="#E8637A" /> Mis Pedidos</Link>}
+              {user.rol_nombre === 'admin' && <Link to="/admin" style={styles.mobileLink} onClick={() => setMenuOpen(false)}><IconAdmin size={18} color="#E8637A" /> Admin</Link>}
+              {user.rol_nombre === 'vendedor' && <Link to="/vendedor" style={styles.mobileLink} onClick={() => setMenuOpen(false)}><IconStore size={18} color="#E8637A" /> Vendedor</Link>}
+              <button style={{ ...styles.mobileLink, border: 'none', background: 'none', color: '#e74c3c', textAlign: 'left', cursor: 'pointer' }} onClick={handleLogout}>
+                <IconLogout size={18} color="#e74c3c" /> Cerrar Sesión
+              </button>
             </>
           ) : (
             <>
-              <Link to="/login" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>🔑 Iniciar Sesión</Link>
-              <Link to="/registro" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>✨ Registrarse</Link>
+              <Link to="/login" style={styles.mobileLink} onClick={() => setMenuOpen(false)}><IconKey size={18} color="#E8637A" /> Iniciar Sesión</Link>
+              <Link to="/registro" style={styles.mobileLink} onClick={() => setMenuOpen(false)}><RegisterIcon /> Registrarse</Link>
             </>
           )}
         </div>
       )}
     </nav>
+  );
+}
+
+function LogoIcon() {
+  return (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: 8 }}>
+      <rect x="10" y="14" width="12" height="16" rx="3" fill="#E8637A" opacity="0.85"/>
+      <rect x="13" y="8" width="6" height="8" rx="2" fill="#E8637A"/>
+      <rect x="14" y="5" width="4" height="5" rx="1.5" fill="#FFB6C1"/>
+      <rect x="12" y="4" width="8" height="2.5" rx="1.25" fill="#E8637A" opacity="0.6"/>
+      <ellipse cx="16" cy="20" rx="4" ry="3" fill="rgba(255,255,255,0.12)"/>
+    </svg>
+  );
+}
+
+function NosotrosIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="9" cy="6" r="3.5" fill="#E8637A" opacity="0.85"/>
+      <path d="M2 16 Q2 11 9 11 Q16 11 16 16" fill="#E8637A" opacity="0.6"/>
+    </svg>
+  );
+}
+
+function RegisterIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="7" cy="6" r="3" fill="#E8637A" opacity="0.85"/>
+      <path d="M1 16 Q1 11 7 11 Q10 11 12 13" fill="#E8637A" opacity="0.6"/>
+      <path d="M13 9 L17 9 M15 7 L15 11" stroke="#E8637A" strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
   );
 }
 
@@ -143,8 +184,7 @@ const styles = {
   logo: {
     textDecoration: 'none',
     display: 'flex',
-    flexDirection: 'column',
-    lineHeight: 1.1,
+    alignItems: 'center',
   },
   logoText: {
     fontFamily: "'Playfair Display', serif",
@@ -152,17 +192,18 @@ const styles = {
     fontWeight: 700,
     color: '#E8637A',
     letterSpacing: 4,
+    display: 'block',
   },
   logoSub: {
     fontSize: 10,
     color: '#9B7B84',
     letterSpacing: 2,
     textTransform: 'uppercase',
+    display: 'block',
   },
   links: {
     display: 'flex',
     gap: 32,
-    '@media (max-width: 768px)': { display: 'none' },
   },
   link: (active) => ({
     textDecoration: 'none',
@@ -177,11 +218,12 @@ const styles = {
   actions: { display: 'flex', alignItems: 'center', gap: 12 },
   cartBtn: {
     position: 'relative',
-    fontSize: 22,
     textDecoration: 'none',
     padding: '8px 12px',
     borderRadius: 8,
     transition: 'all 0.2s',
+    display: 'flex',
+    alignItems: 'center',
   },
   cartBadge: {
     position: 'absolute',
@@ -246,7 +288,9 @@ const styles = {
     fontSize: 14,
   },
   dropdownItem: {
-    display: 'block',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
     padding: '12px 16px',
     textDecoration: 'none',
     color: '#1A1A1A',
@@ -281,7 +325,6 @@ const styles = {
     fontSize: 22,
     cursor: 'pointer',
     color: '#1A1A1A',
-    '@media (max-width: 768px)': { display: 'block' },
   },
   mobileMenu: {
     display: 'flex',
@@ -291,7 +334,9 @@ const styles = {
     padding: 8,
   },
   mobileLink: {
-    display: 'block',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
     padding: '12px 20px',
     textDecoration: 'none',
     color: '#1A1A1A',

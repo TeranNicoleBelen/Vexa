@@ -77,7 +77,7 @@ export default function AdminProductos() {
   return (
     <AdminLayout title="Productos" subtitle="Gestiona el catálogo de productos VEXA">
       <div className="flex-between mb-24">
-        <input type="text" placeholder="🔍 Buscar producto..." value={search} onChange={e => setSearch(e.target.value)} className="form-control" style={{ maxWidth: 320 }} />
+        <input type="text" placeholder=" Buscar producto..." value={search} onChange={e => setSearch(e.target.value)} className="form-control" style={{ maxWidth: 320 }} />
         <button className="btn btn-primary" onClick={openCreate}>+ Nuevo Producto</button>
       </div>
 
@@ -95,7 +95,7 @@ export default function AdminProductos() {
                   <td>
                     {p.imagen
                       ? <img src={`${API_BASE}${p.imagen}`} alt={p.nombre} style={{ width: 48, height: 48, borderRadius: 8, objectFit: 'cover' }} />
-                      : <div style={{ width: 48, height: 48, borderRadius: 8, background: 'linear-gradient(135deg, #FFD1DC, #FFDAB9)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>🧴</div>
+                      : <div style={{ width: 48, height: 48, borderRadius: 8, background: 'linear-gradient(135deg, #FFD1DC, #FFDAB9)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}></div>
                     }
                   </td>
                   <td>
@@ -112,8 +112,8 @@ export default function AdminProductos() {
                   <td><span className={`badge ${p.activo ? 'badge-success' : 'badge-danger'}`}>{p.activo ? 'Activo' : 'Inactivo'}</span></td>
                   <td>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button className="btn btn-sm btn-secondary" onClick={() => openEdit(p)}>✏️ Editar</button>
-                      <button className="btn btn-sm btn-danger" onClick={() => handleDelete(p.id, p.nombre)}>🗑️</button>
+                      <button className="btn btn-sm btn-secondary" onClick={() => openEdit(p)}> Editar</button>
+                      <button className="btn btn-sm btn-danger" onClick={() => handleDelete(p.id, p.nombre)}></button>
                     </div>
                   </td>
                 </tr>
@@ -139,7 +139,7 @@ export default function AdminProductos() {
                   <label htmlFor="img-upload" className="image-upload-area" style={{ cursor: 'pointer', display: 'block' }}>
                     {imgPreview
                       ? <img src={imgPreview} alt="preview" className="image-preview" />
-                      : <><div style={{ fontSize: 40, marginBottom: 8 }}>📷</div><p style={{ color: '#9B7B84', fontSize: 14 }}>Click para subir imagen del producto</p></>
+                      : <><div style={{ fontSize: 40, marginBottom: 8 }}>Foto</div><p style={{ color: '#9B7B84', fontSize: 14 }}>Click para subir imagen del producto</p></>
                     }
                     <input id="img-upload" type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImg} />
                   </label>
@@ -192,7 +192,7 @@ export default function AdminProductos() {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" onClick={() => setModal(false)}>Cancelar</button>
-                <button type="submit" className="btn btn-primary" disabled={saving}>{saving ? '⏳ Guardando...' : '💾 Guardar'}</button>
+                <button type="submit" className="btn btn-primary" disabled={saving}>{saving ? ' Guardando...' : 'Guardar Guardar'}</button>
               </div>
             </form>
           </div>

@@ -73,7 +73,7 @@ export default function AdminCategorias() {
               <div style={{ ...S.cardTop, background: cat.color || '#FFB6C1' }}>
                 {cat.imagen
                   ? <img src={`${API_BASE}${cat.imagen}`} alt={cat.nombre} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  : <span style={{ fontSize: 40 }}>{catEmojis[cat.nombre] || '🏷️'}</span>
+                  : <span style={{ fontSize: 40 }}>{catEmojis[cat.nombre] || 'TAG️'}</span>
                 }
               </div>
               <div style={S.cardBody}>
@@ -87,10 +87,10 @@ export default function AdminCategorias() {
                   </span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 12 }}>
-                  <span style={{ fontSize: 13, color: '#9B7B84' }}>📦 {cat.total_productos} productos</span>
+                  <span style={{ fontSize: 13, color: '#9B7B84' }}> {cat.total_productos} productos</span>
                   <div style={{ display: 'flex', gap: 8 }}>
-                    <button className="btn btn-sm btn-secondary" onClick={() => openEdit(cat)}>✏️</button>
-                    <button className="btn btn-sm btn-danger" onClick={() => handleDelete(cat.id, cat.nombre)}>🗑️</button>
+                    <button className="btn btn-sm btn-secondary" onClick={() => openEdit(cat)}></button>
+                    <button className="btn btn-sm btn-danger" onClick={() => handleDelete(cat.id, cat.nombre)}></button>
                   </div>
                 </div>
               </div>
@@ -112,7 +112,7 @@ export default function AdminCategorias() {
                   <label htmlFor="cat-img" className="image-upload-area" style={{ cursor: 'pointer', display: 'block' }}>
                     {imgPreview
                       ? <img src={imgPreview} alt="preview" className="image-preview" />
-                      : <><div style={{ fontSize: 40, marginBottom: 8 }}>🏷️</div><p style={{ color: '#9B7B84', fontSize: 14 }}>Click para subir imagen</p></>
+                      : <><div style={{ fontSize: 40, marginBottom: 8 }}>TAG️</div><p style={{ color: '#9B7B84', fontSize: 14 }}>Click para subir imagen</p></>
                     }
                     <input id="cat-img" type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImg} />
                   </label>
@@ -144,7 +144,7 @@ export default function AdminCategorias() {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" onClick={() => setModal(false)}>Cancelar</button>
-                <button type="submit" className="btn btn-primary" disabled={saving}>{saving ? '⏳ Guardando...' : '💾 Guardar'}</button>
+                <button type="submit" className="btn btn-primary" disabled={saving}>{saving ? ' Guardando...' : 'Guardar Guardar'}</button>
               </div>
             </form>
           </div>
@@ -154,7 +154,7 @@ export default function AdminCategorias() {
   );
 }
 
-const catEmojis = { 'Limpieza del Hogar': '🧹', 'Cuidado Personal': '🧴', 'Belleza': '💄', 'Cabello': '💇', 'Skin Care': '✨', 'Fragancias': '🌸' };
+const catEmojis = { 'Limpieza del Hogar': '', 'Cuidado Personal': '', 'Belleza': '', 'Cabello': '', 'Skin Care': '', 'Fragancias': '' };
 
 const S = {
   card: { background: 'white', borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 15px rgba(232,99,122,0.08)', transition: 'all 0.3s' },

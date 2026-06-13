@@ -112,20 +112,20 @@ export default function AdminEstadisticas() {
     <AdminLayout title="Estadísticas" subtitle="Análisis detallado del rendimiento de la tienda">
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 24 }}>
         <a href={reportesService.getVentasPDF()} target="_blank" rel="noreferrer" className="btn btn-primary">
-          📄 Exportar Reporte PDF
+          PDF Exportar Reporte PDF
         </a>
       </div>
 
       {/* Row 1: Line + Doughnut */}
       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24, marginBottom: 24 }}>
         <div style={S.chartCard}>
-          <h3 style={S.chartTitle}>📈 Tendencia de Ingresos (12 meses)</h3>
+          <h3 style={S.chartTitle}> Tendencia de Ingresos (12 meses)</h3>
           {ventasMes.length > 0
             ? <Line data={ventasLineChart} options={{ ...chartOpts, plugins: { legend: { position: 'top' } } }} />
             : <EmptyChart />}
         </div>
         <div style={S.chartCard}>
-          <h3 style={S.chartTitle}>🏷️ Ventas por Categoría</h3>
+          <h3 style={S.chartTitle}>TAG️ Ventas por Categoría</h3>
           {categorias.length > 0
             ? <Doughnut data={catDonutChart} options={{ ...chartOpts, plugins: { legend: { position: 'bottom' } } }} />
             : <EmptyChart />}
@@ -134,7 +134,7 @@ export default function AdminEstadisticas() {
 
       {/* Row 2: Bar (ventas + pedidos) */}
       <div style={S.chartCard}>
-        <h3 style={S.chartTitle}>📊 Ingresos y Pedidos por Mes</h3>
+        <h3 style={S.chartTitle}> Ingresos y Pedidos por Mes</h3>
         {ventasMes.length > 0
           ? <Bar data={ventasBarChart} options={{
               responsive: true,
@@ -150,13 +150,13 @@ export default function AdminEstadisticas() {
       {/* Row 3: Products + Clients */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginTop: 24 }}>
         <div style={S.chartCard}>
-          <h3 style={S.chartTitle}>🏆 Top 10 Productos Más Vendidos</h3>
+          <h3 style={S.chartTitle}> Top 10 Productos Más Vendidos</h3>
           {productosMasVendidos.length > 0
             ? <Bar data={prodBarChart} options={{ ...chartOpts, indexAxis: 'y', plugins: { legend: { display: false } } }} />
             : <EmptyChart />}
         </div>
         <div style={S.chartCard}>
-          <h3 style={S.chartTitle}>💰 Compras por Mes (Clientes)</h3>
+          <h3 style={S.chartTitle}> Compras por Mes (Clientes)</h3>
           {clientesMesArr.length > 0
             ? <Bar data={clientesChart} options={{ ...chartOpts, plugins: { legend: { display: false } } }} />
             : <EmptyChart />}
@@ -165,7 +165,7 @@ export default function AdminEstadisticas() {
 
       {/* Top clients table */}
       <div style={{ ...S.chartCard, marginTop: 24 }}>
-        <h3 style={S.chartTitle}>👥 Top 5 Clientes por Compras</h3>
+        <h3 style={S.chartTitle}> Top 5 Clientes por Compras</h3>
         {uniqueClients.length === 0 ? <EmptyChart /> : (
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
@@ -198,7 +198,7 @@ export default function AdminEstadisticas() {
 
       {/* Products detail table */}
       <div style={{ ...S.chartCard, marginTop: 24 }}>
-        <h3 style={S.chartTitle}>🛍️ Detalle de Todos los Productos</h3>
+        <h3 style={S.chartTitle}> Detalle de Todos los Productos</h3>
         {productosMasVendidos.length === 0 ? <EmptyChart /> : (
           <div className="table-wrapper" style={{ boxShadow: 'none' }}>
             <table>
@@ -229,7 +229,7 @@ export default function AdminEstadisticas() {
 function EmptyChart() {
   return (
     <div style={{ textAlign: 'center', padding: '40px 20px', color: '#9B7B84' }}>
-      <div style={{ fontSize: 40, marginBottom: 8 }}>📊</div>
+      <div style={{ fontSize: 40, marginBottom: 8 }}></div>
       <p>Aún no hay datos suficientes para mostrar esta gráfica.</p>
       <p style={{ fontSize: 13 }}>Los datos aparecerán una vez que haya ventas registradas.</p>
     </div>

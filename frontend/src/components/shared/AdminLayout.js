@@ -5,26 +5,26 @@ import { toast } from 'react-toastify';
 
 const adminLinks = [
   { section: 'Principal' },
-  { to: '/admin', icon: '📊', label: 'Dashboard' },
+  { to: '/admin', icon: '', label: 'Dashboard' },
   { section: 'Gestión' },
-  { to: '/admin/productos', icon: '🛍️', label: 'Productos' },
-  { to: '/admin/categorias', icon: '🏷️', label: 'Categorías' },
-  { to: '/admin/usuarios', icon: '👥', label: 'Usuarios' },
-  { to: '/admin/pedidos', icon: '📦', label: 'Pedidos' },
+  { to: '/admin/productos', icon: '', label: 'Productos' },
+  { to: '/admin/categorias', icon: 'TAG️', label: 'Categorías' },
+  { to: '/admin/usuarios', icon: '', label: 'Usuarios' },
+  { to: '/admin/pedidos', icon: '', label: 'Pedidos' },
   { section: 'Análisis' },
-  { to: '/admin/estadisticas', icon: '📈', label: 'Estadísticas' },
-  { to: '/admin/logs', icon: '📋', label: 'Historial / Logs' },
+  { to: '/admin/estadisticas', icon: '', label: 'Estadísticas' },
+  { to: '/admin/logs', icon: '', label: 'Historial / Logs' },
 ];
 
 const vendedorLinks = [
   { section: 'Principal' },
-  { to: '/vendedor', icon: '📊', label: 'Dashboard' },
+  { to: '/vendedor', icon: '', label: 'Dashboard' },
   { section: 'Gestión' },
-  { to: '/vendedor/productos', icon: '🛍️', label: 'Productos' },
-  { to: '/vendedor/categorias', icon: '🏷️', label: 'Categorías' },
-  { to: '/vendedor/pedidos', icon: '📦', label: 'Pedidos' },
+  { to: '/vendedor/productos', icon: '', label: 'Productos' },
+  { to: '/vendedor/categorias', icon: 'TAG️', label: 'Categorías' },
+  { to: '/vendedor/pedidos', icon: '', label: 'Pedidos' },
   { section: 'Análisis' },
-  { to: '/vendedor/estadisticas', icon: '📈', label: 'Estadísticas' },
+  { to: '/vendedor/estadisticas', icon: '', label: 'Estadísticas' },
 ];
 
 export default function AdminLayout({ children, title, subtitle }) {
@@ -99,12 +99,12 @@ export default function AdminLayout({ children, title, subtitle }) {
               flex: 1, textAlign: 'center', padding: '7px 10px',
               background: 'rgba(255,182,193,0.1)', borderRadius: 6,
               color: '#FFB6C1', fontSize: 12, textDecoration: 'none',
-            }}>🏠 Tienda</Link>
+            }}> Tienda</Link>
             <button onClick={handleLogout} style={{
               flex: 1, padding: '7px 10px', background: 'rgba(231,76,60,0.15)',
               border: 'none', borderRadius: 6, color: '#e74c3c',
               fontSize: 12, cursor: 'pointer',
-            }}>🚪 Salir</button>
+            }}> Salir</button>
           </div>
         </div>
       </aside>

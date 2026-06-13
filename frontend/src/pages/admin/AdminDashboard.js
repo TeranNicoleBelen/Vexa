@@ -52,10 +52,10 @@ export default function AdminDashboard() {
       {/* Stats cards */}
       <div className="stats-grid">
         {[
-          { icon: '💰', label: 'Ingresos Totales', value: `Bs ${parseFloat(stats?.ingresos || 0).toFixed(2)}`, cls: 'pink' },
-          { icon: '📦', label: 'Pedidos Totales', value: stats?.totalVentas || 0, cls: 'coral' },
-          { icon: '🛍️', label: 'Productos Activos', value: stats?.totalProductos || 0, cls: 'green' },
-          { icon: '👥', label: 'Clientes', value: stats?.totalClientes || 0, cls: 'blue' },
+          { icon: '', label: 'Ingresos Totales', value: `Bs ${parseFloat(stats?.ingresos || 0).toFixed(2)}`, cls: 'pink' },
+          { icon: '', label: 'Pedidos Totales', value: stats?.totalVentas || 0, cls: 'coral' },
+          { icon: '', label: 'Productos Activos', value: stats?.totalProductos || 0, cls: 'green' },
+          { icon: '', label: 'Clientes', value: stats?.totalClientes || 0, cls: 'blue' },
         ].map(s => (
           <div key={s.label} className="stat-card">
             <div className={`stat-icon ${s.cls}`}>{s.icon}</div>
@@ -69,7 +69,7 @@ export default function AdminDashboard() {
 
       {stats?.totalPendientes > 0 && (
         <div style={{ background: '#FFF3CD', borderRadius: 12, padding: '12px 20px', marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span>⚠️ Tienes <strong>{stats.totalPendientes}</strong> pedidos pendientes</span>
+          <span>! Tienes <strong>{stats.totalPendientes}</strong> pedidos pendientes</span>
           <Link to="/admin/pedidos" style={{ color: '#E8637A', fontWeight: 600, textDecoration: 'none', fontSize: 14 }}>Ver pedidos →</Link>
         </div>
       )}
@@ -93,7 +93,7 @@ export default function AdminDashboard() {
       {/* Top products + low stock */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
         <div style={{ background: 'white', borderRadius: 16, padding: 24, boxShadow: '0 4px 15px rgba(232,99,122,0.08)' }}>
-          <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, marginBottom: 16 }}>🏆 Productos Más Vendidos</h3>
+          <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, marginBottom: 16 }}> Productos Más Vendidos</h3>
           {(stats?.productosTopVentas || []).length === 0
             ? <p style={{ color: '#9B7B84' }}>Aún no hay ventas registradas</p>
             : (stats?.productosTopVentas || []).map((p, i) => (
@@ -112,7 +112,7 @@ export default function AdminDashboard() {
         </div>
 
         <div style={{ background: 'white', borderRadius: 16, padding: 24, boxShadow: '0 4px 15px rgba(232,99,122,0.08)' }}>
-          <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, marginBottom: 16 }}>⚠️ Poco Stock</h3>
+          <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, marginBottom: 16 }}>! Poco Stock</h3>
           {(stats?.productosPocoStock || []).length === 0
             ? <p style={{ color: '#9B7B84' }}>Todos los productos tienen stock suficiente ✓</p>
             : (stats?.productosPocoStock || []).map(p => (
@@ -132,15 +132,15 @@ export default function AdminDashboard() {
 
       {/* Quick actions */}
       <div style={{ background: 'white', borderRadius: 16, padding: 24, boxShadow: '0 4px 15px rgba(232,99,122,0.08)', marginTop: 24 }}>
-        <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, marginBottom: 16 }}>⚡ Acciones Rápidas</h3>
+        <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, marginBottom: 16 }}> Acciones Rápidas</h3>
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
           {[
-            { to: '/admin/productos', icon: '🛍️', label: 'Nuevo Producto' },
-            { to: '/admin/categorias', icon: '🏷️', label: 'Nueva Categoría' },
-            { to: '/admin/usuarios', icon: '👥', label: 'Gestionar Usuarios' },
-            { to: '/admin/pedidos', icon: '📦', label: 'Ver Pedidos' },
-            { to: '/admin/estadisticas', icon: '📈', label: 'Ver Estadísticas' },
-            { to: '/admin/logs', icon: '📋', label: 'Ver Logs' },
+            { to: '/admin/productos', icon: '', label: 'Nuevo Producto' },
+            { to: '/admin/categorias', icon: 'TAG️', label: 'Nueva Categoría' },
+            { to: '/admin/usuarios', icon: '', label: 'Gestionar Usuarios' },
+            { to: '/admin/pedidos', icon: '', label: 'Ver Pedidos' },
+            { to: '/admin/estadisticas', icon: '', label: 'Ver Estadísticas' },
+            { to: '/admin/logs', icon: '', label: 'Ver Logs' },
           ].map(a => (
             <Link key={a.to} to={a.to} className="btn btn-secondary btn-sm">{a.icon} {a.label}</Link>
           ))}
