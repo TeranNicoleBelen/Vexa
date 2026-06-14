@@ -6,21 +6,34 @@ require('dotenv').config();
 const MAX_RETRIES = 20;
 const RETRY_DELAY_MS = 3000;
 
-const dbConfig = {
-  host: process.env.MYSQLHOST || process.env.DB_HOST || 'localhost',
-  port: process.env.MYSQLPORT || process.env.DB_PORT || 3306,
-  user: process.env.MYSQLUSER || process.env.DB_USER || 'root',
-  password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || '',
-  multipleStatements: true
-};
+function getDbConfig() {
+  return {
+    host: process.env.MYSQLHOST || process.env.DB_HOST || 'localhost',
+    port: process.env.MYSQLPORT || process.env.DB_PORT || 3306,
+    user: process.env.MYSQLUSER || process.env.DB_USER || 'root',
+    password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || '',
+    multipleStatements: true
+  };
+}
 
-const TARGET_DB = process.env.MYSQLDATABASE || process.env.DB_NAME || 'railway';
+function getTargetDb() {
+  return process.env.MYSQLDATABASE || process.env.DB_NAME || 'railway';
+}
 
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function connectWithRetry() {
+  const dbConfig = getDbConfig();
+
+  console.log('DEBUG DB CONFIG (init-db):', {
+    host: dbConfig.host,
+    port: dbConfig.port,
+    user: dbConfig.user,
+    database: getTargetDb()
+  });
+
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
       const connection = await mysql.createConnection(dbConfig);
@@ -58,21 +71,15 @@ function findSqlFile() {
 function sanitizeSql(sql, targetDb) {
   let cleaned = sql;
 
-  // Eliminar CREATE DATABASE y USE originales (apuntan a otra DB)
   cleaned = cleaned.replace(/CREATE\s+DATABASE.*?;/gis, '');
   cleaned = cleaned.replace(/USE\s+`?[\w-]+`?\s*;/gis, '');
 
-  // Quitar DEFINER (Railway no permite especificar definer distinto al usuario actual)
   cleaned = cleaned.replace(/DEFINER\s*=\s*`[^`]+`@`[^`]+`/gi, '');
   cleaned = cleaned.replace(/DEFINER\s*=\s*\S+\s+/gi, '');
 
-  // Convertir CREATE TABLE en CREATE TABLE IF NOT EXISTS
   cleaned = cleaned.replace(/CREATE\s+TABLE\s+(?!IF\s+NOT\s+EXISTS)/gi, 'CREATE TABLE IF NOT EXISTS ');
-
-  // Convertir INSERT INTO en INSERT IGNORE INTO
   cleaned = cleaned.replace(/INSERT\s+INTO\s+/gi, 'INSERT IGNORE INTO ');
 
-  // Anteponer USE a la base correcta
   cleaned = `USE \`${targetDb}\`;\n${cleaned}`;
 
   return cleaned;
@@ -82,9 +89,9 @@ async function initDb() {
   console.log('🚀 Iniciando inicialización de base de datos...');
 
   const connection = await connectWithRetry();
+  const TARGET_DB = getTargetDb();
 
   try {
-    // Crear la BD si no existe (en Railway normalmente ya existe "railway")
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${TARGET_DB}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
     console.log(`✅ Base de datos "${TARGET_DB}" verificada`);
 
@@ -96,7 +103,6 @@ async function initDb() {
     await connection.query(cleanedSql);
     console.log('✅ Script SQL ejecutado correctamente');
 
-    // Verificar tablas creadas
     const [tables] = await connection.query(
       `SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = ?`,
       [TARGET_DB]
@@ -104,15 +110,21 @@ async function initDb() {
 
     console.log(`\n📊 Tablas en "${TARGET_DB}": ${tables.length}`);
     tables.forEach(t => console.log(`   - ${t.TABLE_NAME}`));
-
   } catch (err) {
     console.error('❌ Error durante la inicialización:', err.message);
-    process.exit(1);
+    throw err;
   } finally {
     await connection.end();
   }
 
-  console.log('\n🎉 Inicialización completada con éxito');
+  console.log('🎉 Inicialización completada con éxito');
 }
 
-initDb();
+module.exports = { initDb };
+
+if (require.main === module) {
+  initDb().catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
+}
