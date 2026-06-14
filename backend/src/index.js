@@ -1,4 +1,5 @@
 const express = require('express');
+require('express-async-errors'); // <-- agregar arriba, antes de las rutas
 const cors = require('cors');
 const helmet = require('helmet');
 const path = require('path');
@@ -8,14 +9,15 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Security middleware
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 
-// Rate limiting
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 200, message: 'Demasiadas solicitudes, intenta más tarde.' });
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 200,
+  message: { success: false, message: 'Demasiadas solicitudes, intenta más tarde.' }
+});
 app.use('/api/', limiter);
 
-// CORS
 app.use(cors({
   origin: [process.env.CORS_ORIGIN || 'http://localhost:3000', 'http://localhost:3001'],
   credentials: true,
@@ -23,33 +25,27 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Body parsing
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Static files (uploads)
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// Routes
 const routes = require('./routes/index');
 app.use('/api', routes);
 
-// Health check
 app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'ok', 
+  res.json({
+    status: 'ok',
     app: 'VEXA Backend',
     version: '1.0.0',
     timestamp: new Date().toISOString()
   });
 });
 
-// 404 handler
 app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Ruta no encontrada' });
 });
 
-// Error handler
 app.use((err, req, res, next) => {
   console.error('Error:', err);
   if (err.code === 'LIMIT_FILE_SIZE') {
@@ -58,7 +54,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ success: false, message: err.message || 'Error interno del servidor' });
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`
   ╔═══════════════════════════════════════╗
   ║         VEXA Backend API              ║
@@ -69,5 +65,24 @@ app.listen(PORT, () => {
   ╚═══════════════════════════════════════╝
   `);
 });
+
+// Cierre limpio (Railway envía SIGTERM al hacer deploy/redeploy)
+const pool = require('./config/db');
+
+function shutdown(signal) {
+  console.log(`\n${signal} recibido. Cerrando servidor...`);
+  server.close(async () => {
+    try {
+      await pool.end();
+      console.log('✅ Conexiones MySQL cerradas');
+    } catch (err) {
+      console.error('❌ Error cerrando pool MySQL:', err.message);
+    }
+    process.exit(0);
+  });
+}
+
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT', () => shutdown('SIGINT'));
 
 module.exports = app;
