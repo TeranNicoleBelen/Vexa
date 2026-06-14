@@ -1,5 +1,5 @@
 const express = require('express');
-require('express-async-errors'); // <-- agregar arriba, antes de las rutas
+require('express-async-errors');
 const cors = require('cors');
 const helmet = require('helmet');
 const path = require('path');
@@ -54,8 +54,17 @@ app.use((err, req, res, next) => {
   res.status(500).json({ success: false, message: err.message || 'Error interno del servidor' });
 });
 
-const server = app.listen(PORT, () => {
-  console.log(`
+async function start() {
+  // Inicializar la base de datos (crea tablas si no existen) antes de levantar el servidor
+  try {
+    const { initDb } = require('../scripts/init-db');
+    await initDb();
+  } catch (err) {
+    console.error('⚠️  No se pudo inicializar la BD, el servidor continuará igual:', err.message);
+  }
+
+  const server = app.listen(PORT, () => {
+    console.log(`
   ╔═══════════════════════════════════════╗
   ║         VEXA Backend API              ║
   ║    Tienda de Limpieza & Belleza       ║
@@ -63,26 +72,28 @@ const server = app.listen(PORT, () => {
   ║  Puerto: ${PORT}                          ║
   ║  Entorno: ${process.env.NODE_ENV}              ║
   ╚═══════════════════════════════════════╝
-  `);
-});
-
-// Cierre limpio (Railway envía SIGTERM al hacer deploy/redeploy)
-const pool = require('./config/database');
-
-function shutdown(signal) {
-  console.log(`\n${signal} recibido. Cerrando servidor...`);
-  server.close(async () => {
-    try {
-      await pool.end();
-      console.log('✅ Conexiones MySQL cerradas');
-    } catch (err) {
-      console.error('❌ Error cerrando pool MySQL:', err.message);
-    }
-    process.exit(0);
+    `);
   });
+
+  const pool = require('./config/database');
+
+  function shutdown(signal) {
+    console.log(`\n${signal} recibido. Cerrando servidor...`);
+    server.close(async () => {
+      try {
+        await pool.end();
+        console.log('✅ Conexiones MySQL cerradas');
+      } catch (err) {
+        console.error('❌ Error cerrando pool MySQL:', err.message);
+      }
+      process.exit(0);
+    });
+  }
+
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
+  process.on('SIGINT', () => shutdown('SIGINT'));
 }
 
-process.on('SIGTERM', () => shutdown('SIGTERM'));
-process.on('SIGINT', () => shutdown('SIGINT'));
+start();
 
 module.exports = app;
