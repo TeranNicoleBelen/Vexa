@@ -67,7 +67,7 @@ const server = app.listen(PORT, () => {
 });
 
 // Cierre limpio (Railway envía SIGTERM al hacer deploy/redeploy)
-const pool = require('./config/db');
+const pool = require('./config/database');
 
 function shutdown(signal) {
   console.log(`\n${signal} recibido. Cerrando servidor...`);
