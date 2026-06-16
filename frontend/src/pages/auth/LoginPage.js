@@ -138,7 +138,7 @@ export default function LoginPage() {
               ¿No tienes cuenta?{' '}
               <Link to="/registro" style={{ color: '#E8637A', fontWeight: 600 }}>Regístrate aquí</Link>
             </p>
-          </div>
+        </div>
           </div>
         </div>
       </div>
@@ -177,6 +177,4 @@ const S = {
   captchaBox: { display: 'flex', alignItems: 'center', gap: 12, background: 'white', padding: 12, borderRadius: 8, border: '2px solid #F0E0E5' },
   reloadBtn: { background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', padding: 4 },
   footer: { marginTop: 24, textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 16 },
-  testAccounts: { background: '#F0E0E5', borderRadius: 8, padding: 12, textAlign: 'left' },
-  code: { display: 'block', fontFamily: 'monospace', fontSize: 12, color: '#5C3D47', marginBottom: 2, background: 'white', padding: '2px 6px', borderRadius: 4 },
 };
