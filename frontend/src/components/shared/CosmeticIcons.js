@@ -1,6 +1,6 @@
 import React from 'react';
 
-// SVG Icons con temática cosmética - reemplazan emojis
+
 
 export const IconLipstick = ({ size = 40, color = '#E8637A' }) => (
   <svg width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -249,4 +249,3 @@ export const IconShop = ({ size = 24, color = '#E8637A' }) => (
     <rect x="3" y="9" width="18" height="13" rx="1" fill={color} opacity="0.2" stroke={color} strokeWidth="1.5"/>
   </svg>
 );
-

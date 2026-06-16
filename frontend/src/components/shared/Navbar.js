@@ -22,6 +22,7 @@ export default function Navbar() {
   return (
     <nav style={styles.nav}>
       <div style={styles.container}>
+
         {/* Logo */}
         <Link to="/" style={styles.logo}>
           <LogoIcon />
@@ -31,8 +32,8 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Desktop Links */}
-        <div style={styles.links}>
+        {/* Links desktop — ocultos en móvil via CSS */}
+        <div className="nav-links-desktop" style={styles.links}>
           <Link to="/" style={styles.link(location.pathname === '/')}>Inicio</Link>
           <Link to="/tienda" style={styles.link(location.pathname.startsWith('/tienda'))}>Tienda</Link>
           <Link to="/nosotros" style={styles.link(location.pathname === '/nosotros')}>Nosotros</Link>
@@ -49,12 +50,9 @@ export default function Navbar() {
                 </Link>
               )}
               <div style={{ position: 'relative' }}>
-                <button
-                  style={styles.userBtn}
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
-                >
+                <button style={styles.userBtn} onClick={() => setUserMenuOpen(!userMenuOpen)}>
                   <span style={styles.avatar}>{user.nombre?.[0]?.toUpperCase()}</span>
-                  <span style={styles.userName}>{user.nombre}</span>
+                  <span className="nav-username" style={styles.userName}>{user.nombre}</span>
                   <span>▾</span>
                 </button>
                 {userMenuOpen && (
@@ -78,7 +76,10 @@ export default function Navbar() {
                         <IconStore size={16} color="#E8637A" /> Panel Vendedor
                       </Link>
                     )}
-                    <button style={{ ...styles.dropdownItem, color: '#e74c3c', border: 'none', background: 'none', cursor: 'pointer', width: '100%', textAlign: 'left' }} onClick={handleLogout}>
+                    <button
+                      style={{ ...styles.dropdownItem, color: '#e74c3c', border: 'none', background: 'none', cursor: 'pointer', width: '100%', textAlign: 'left' }}
+                      onClick={handleLogout}
+                    >
                       <IconLogout size={16} color="#e74c3c" /> Cerrar Sesión
                     </button>
                   </div>
@@ -86,20 +87,25 @@ export default function Navbar() {
               </div>
             </>
           ) : (
-            <div style={{ display: 'flex', gap: 12 }}>
+            /* Botones auth — ocultos en móvil via CSS */
+            <div className="nav-auth-desktop" style={{ display: 'flex', gap: 12 }}>
               <Link to="/login" style={styles.btnSecondary}>Iniciar Sesión</Link>
               <Link to="/registro" style={styles.btnPrimary}>Registrarse</Link>
             </div>
           )}
 
-          {/* Mobile toggle */}
-          <button style={styles.hamburger} onClick={() => setMenuOpen(!menuOpen)}>
+          {/* Botón hamburguesa — visible solo en móvil via CSS */}
+          <button
+            className="hamburger-btn"
+            style={styles.hamburger}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
             {menuOpen ? '✕' : '☰'}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Menú móvil desplegable */}
       {menuOpen && (
         <div style={styles.mobileMenu}>
           <Link to="/" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>
@@ -113,18 +119,41 @@ export default function Navbar() {
           </Link>
           {user ? (
             <>
-              {user.rol_nombre === 'cliente' && <Link to="/carrito" style={styles.mobileLink} onClick={() => setMenuOpen(false)}><IconCart size={18} color="#E8637A" /> Carrito ({count})</Link>}
-              {user.rol_nombre === 'cliente' && <Link to="/mis-pedidos" style={styles.mobileLink} onClick={() => setMenuOpen(false)}><IconBox size={18} color="#E8637A" /> Mis Pedidos</Link>}
-              {user.rol_nombre === 'admin' && <Link to="/admin" style={styles.mobileLink} onClick={() => setMenuOpen(false)}><IconAdmin size={18} color="#E8637A" /> Admin</Link>}
-              {user.rol_nombre === 'vendedor' && <Link to="/vendedor" style={styles.mobileLink} onClick={() => setMenuOpen(false)}><IconStore size={18} color="#E8637A" /> Vendedor</Link>}
-              <button style={{ ...styles.mobileLink, border: 'none', background: 'none', color: '#e74c3c', textAlign: 'left', cursor: 'pointer' }} onClick={handleLogout}>
+              {user.rol_nombre === 'cliente' && (
+                <Link to="/carrito" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>
+                  <IconCart size={18} color="#E8637A" /> Carrito ({count})
+                </Link>
+              )}
+              {user.rol_nombre === 'cliente' && (
+                <Link to="/mis-pedidos" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>
+                  <IconBox size={18} color="#E8637A" /> Mis Pedidos
+                </Link>
+              )}
+              {user.rol_nombre === 'admin' && (
+                <Link to="/admin" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>
+                  <IconAdmin size={18} color="#E8637A" /> Admin
+                </Link>
+              )}
+              {user.rol_nombre === 'vendedor' && (
+                <Link to="/vendedor" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>
+                  <IconStore size={18} color="#E8637A" /> Vendedor
+                </Link>
+              )}
+              <button
+                style={{ ...styles.mobileLink, border: 'none', background: 'none', color: '#e74c3c', textAlign: 'left', cursor: 'pointer' }}
+                onClick={handleLogout}
+              >
                 <IconLogout size={18} color="#e74c3c" /> Cerrar Sesión
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" style={styles.mobileLink} onClick={() => setMenuOpen(false)}><IconKey size={18} color="#E8637A" /> Iniciar Sesión</Link>
-              <Link to="/registro" style={styles.mobileLink} onClick={() => setMenuOpen(false)}><RegisterIcon /> Registrarse</Link>
+              <Link to="/login" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>
+                <IconKey size={18} color="#E8637A" /> Iniciar Sesión
+              </Link>
+              <Link to="/registro" style={styles.mobileLink} onClick={() => setMenuOpen(false)}>
+                <RegisterIcon /> Registrarse
+              </Link>
             </>
           )}
         </div>
@@ -175,27 +204,28 @@ const styles = {
   container: {
     maxWidth: 1200,
     margin: '0 auto',
-    padding: '0 24px',
+    padding: '0 16px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    height: 70,
+    height: 64,
   },
   logo: {
     textDecoration: 'none',
     display: 'flex',
     alignItems: 'center',
+    flexShrink: 0,
   },
   logoText: {
     fontFamily: "'Playfair Display', serif",
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 700,
     color: '#E8637A',
     letterSpacing: 4,
     display: 'block',
   },
   logoSub: {
-    fontSize: 10,
+    fontSize: 9,
     color: '#9B7B84',
     letterSpacing: 2,
     textTransform: 'uppercase',
@@ -203,7 +233,7 @@ const styles = {
   },
   links: {
     display: 'flex',
-    gap: 32,
+    gap: 28,
   },
   link: (active) => ({
     textDecoration: 'none',
@@ -214,12 +244,17 @@ const styles = {
     borderBottom: active ? '2px solid #E8637A' : '2px solid transparent',
     paddingBottom: 2,
     transition: 'all 0.2s',
+    whiteSpace: 'nowrap',
   }),
-  actions: { display: 'flex', alignItems: 'center', gap: 12 },
+  actions: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+  },
   cartBtn: {
     position: 'relative',
     textDecoration: 'none',
-    padding: '8px 12px',
+    padding: '8px 10px',
     borderRadius: 8,
     transition: 'all 0.2s',
     display: 'flex',
@@ -243,20 +278,21 @@ const styles = {
   userBtn: {
     display: 'flex',
     alignItems: 'center',
-    gap: 8,
+    gap: 6,
     background: 'none',
     border: '2px solid #FFB6C1',
     borderRadius: 30,
-    padding: '6px 14px 6px 8px',
+    padding: '5px 12px 5px 6px',
     cursor: 'pointer',
     fontFamily: "'Poppins', sans-serif",
     fontSize: 14,
     color: '#1A1A1A',
     transition: 'all 0.2s',
+    whiteSpace: 'nowrap',
   },
   avatar: {
-    width: 30,
-    height: 30,
+    width: 28,
+    height: 28,
     borderRadius: '50%',
     background: 'linear-gradient(135deg, #E8637A, #FF8C69)',
     color: 'white',
@@ -264,7 +300,8 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     fontWeight: 700,
-    fontSize: 13,
+    fontSize: 12,
+    flexShrink: 0,
   },
   userName: { fontWeight: 500 },
   dropdown: {
@@ -277,7 +314,6 @@ const styles = {
     minWidth: 200,
     overflow: 'hidden',
     zIndex: 300,
-    animation: 'fadeIn 0.2s ease',
   },
   dropdownHeader: {
     padding: '16px 16px 8px',
@@ -301,43 +337,48 @@ const styles = {
   btnPrimary: {
     background: 'linear-gradient(135deg, #E8637A, #FF8C69)',
     color: 'white',
-    padding: '9px 20px',
+    padding: '9px 18px',
     borderRadius: 8,
     textDecoration: 'none',
     fontSize: 14,
     fontWeight: 500,
     fontFamily: "'Poppins', sans-serif",
+    whiteSpace: 'nowrap',
   },
   btnSecondary: {
     border: '2px solid #E8637A',
     color: '#E8637A',
-    padding: '7px 20px',
+    padding: '7px 18px',
     borderRadius: 8,
     textDecoration: 'none',
     fontSize: 14,
     fontWeight: 500,
     fontFamily: "'Poppins', sans-serif",
+    whiteSpace: 'nowrap',
   },
   hamburger: {
     display: 'none',
     background: 'none',
     border: 'none',
-    fontSize: 22,
+    fontSize: 24,
     cursor: 'pointer',
     color: '#1A1A1A',
+    padding: '4px 8px',
+    flexShrink: 0,
   },
   mobileMenu: {
     display: 'flex',
     flexDirection: 'column',
     background: 'white',
     borderTop: '1px solid #F0E0E5',
-    padding: 8,
+    padding: '8px 8px 16px',
+    boxShadow: '0 8px 20px rgba(0,0,0,0.08)',
   },
   mobileLink: {
     display: 'flex',
     alignItems: 'center',
     gap: 10,
-    padding: '12px 20px',
+    padding: '13px 20px',
     textDecoration: 'none',
     color: '#1A1A1A',
     fontSize: 15,

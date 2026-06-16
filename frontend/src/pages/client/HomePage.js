@@ -35,13 +35,13 @@ export default function HomePage() {
       {/* HERO */}
       <section style={S.hero}>
         <div style={S.heroBg} />
-        <div style={S.heroContent}>
+        <div style={S.heroContent} className="hero-wrap">
           <div style={S.heroText}>
-            <span style={S.heroBadge}>
+            <span style={S.heroBadge} className="hero-badge-wrap">
               <IconFlower size={14} color="#FFB6C1" />
               &nbsp; Nueva colección 2024
             </span>
-            <h1 style={S.heroTitle}>
+            <h1 style={S.heroTitle} className="hero-title-clamp">
               Belleza que<br />
               <span style={S.heroAccent}>transforma</span><br />
               tu vida
@@ -49,11 +49,11 @@ export default function HomePage() {
             <p style={S.heroDesc}>
               Descubre los mejores productos de limpieza del hogar y cuidado personal. Calidad premium al mejor precio, directo a tu puerta.
             </p>
-            <div style={S.heroActions}>
+            <div style={S.heroActions} className="hero-actions-wrap">
               <Link to="/tienda" className="btn btn-primary btn-lg">Ir a la Tienda</Link>
               <Link to="/nosotros" className="btn btn-secondary btn-lg">Conocer más</Link>
             </div>
-            <div style={S.heroStats}>
+            <div style={S.heroStats} className="hero-stats-wrap">
               {[['500+', 'Productos'], ['10K+', 'Clientes'], ['5★', 'Calificación'], ['24h', 'Entrega']].map(([n, l]) => (
                 <div key={l} style={S.heroStat}>
                   <strong style={S.heroStatNum}>{n}</strong>
@@ -62,7 +62,7 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-          <div style={S.heroImage}>
+          <div style={S.heroImage} className="hero-img-wrap">
             <div style={S.heroImgCircle}>
               <HeroIllustration />
               <div style={{ ...S.floatingBadge, top: 30, right: -20 }}>
@@ -84,7 +84,7 @@ export default function HomePage() {
       {/* CATEGORÍAS */}
       <section style={S.section} id="categorias" data-animate>
         <div className="container">
-          <div style={S.sectionHeader}>
+          <div style={S.sectionHeader} className="section-header-wrap">
             <h2 style={S.sectionTitle}>Nuestras Categorías</h2>
             <p style={S.sectionSub}>Encuentra todo lo que necesitas para tu hogar y cuidado personal</p>
           </div>
@@ -107,7 +107,7 @@ export default function HomePage() {
       {/* BANNER PROMO */}
       <section style={S.banner}>
         <div className="container">
-          <div style={S.bannerContent}>
+          <div style={S.bannerContent} className="banner-wrap">
             <div>
               <h2 style={S.bannerTitle}>
                 <IconTruck size={28} color="white" style={{ verticalAlign: 'middle', marginRight: 8 }} />
@@ -123,7 +123,7 @@ export default function HomePage() {
       {/* PRODUCTOS DESTACADOS */}
       <section style={S.section}>
         <div className="container">
-          <div style={S.sectionHeader}>
+          <div style={S.sectionHeader} className="section-header-wrap">
             <h2 style={S.sectionTitle}>Productos Destacados</h2>
             <Link to="/tienda" style={{ color: '#E8637A', textDecoration: 'none', fontSize: 14, fontWeight: 500 }}>Ver todos →</Link>
           </div>
@@ -138,7 +138,7 @@ export default function HomePage() {
       {/* POR QUÉ ELEGIRNOS */}
       <section style={{ ...S.section, background: '#FDF5F7' }}>
         <div className="container">
-          <div style={S.sectionHeader}>
+          <div style={S.sectionHeader} className="section-header-wrap">
             <h2 style={S.sectionTitle}>¿Por qué elegir VEXA?</h2>
           </div>
           <div style={S.whyGrid}>

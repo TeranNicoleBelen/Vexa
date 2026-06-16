@@ -786,3 +786,121 @@ tbody tr:last-child td { border-bottom: none; }
 .strength-weak { background: #e74c3c; width: 30%; }
 .strength-medium { background: #f39c12; width: 65%; }
 .strength-strong { background: #27ae60; width: 100%; }
+
+/* ==========================================
+   RESPONSIVE MOBILE — VEXA
+   ========================================== */
+
+/* Hamburguesa visible solo en móvil */
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: block !important;
+  }
+}
+
+/* Links de nav y auth ocultos en móvil */
+@media (max-width: 768px) {
+  .nav-links-desktop {
+    display: none !important;
+  }
+  .nav-auth-desktop {
+    display: none !important;
+  }
+  /* Ocultar nombre de usuario en navbar — solo mostrar avatar */
+  .nav-username {
+    display: none !important;
+  }
+}
+
+/* Hero: apilar en columna en móvil */
+@media (max-width: 768px) {
+  .hero-wrap {
+    flex-direction: column !important;
+    padding: 70px 20px 80px !important;
+    gap: 32px !important;
+    text-align: center !important;
+  }
+  .hero-img-wrap {
+    display: none !important;
+  }
+  .hero-actions-wrap {
+    justify-content: center !important;
+  }
+  .hero-stats-wrap {
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    gap: 16px !important;
+  }
+  .hero-badge-wrap {
+    margin: 0 auto 20px !important;
+  }
+}
+
+/* Sección header en móvil */
+@media (max-width: 768px) {
+  .section-header-wrap {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    margin-bottom: 24px !important;
+  }
+}
+
+/* Banner promo en móvil */
+@media (max-width: 768px) {
+  .banner-wrap {
+    flex-direction: column !important;
+    text-align: center !important;
+  }
+}
+
+/* Story layout en About */
+@media (max-width: 768px) {
+  .story-wrap {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .story-stats-wrap {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Auth pages — ocultar panel izquierdo en móvil */
+@media (max-width: 768px) {
+  .auth-left-panel {
+    display: none !important;
+  }
+  .auth-right-panel {
+    padding: 32px 20px !important;
+    min-height: 100vh !important;
+  }
+  .auth-form-wrap {
+    max-width: 100% !important;
+  }
+}
+
+/* Footer en móvil */
+@media (max-width: 768px) {
+  .footer-grid-wrap {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+  .footer-bottom-wrap {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 6px !important;
+  }
+}
+
+/* Título hero responsivo sin media query */
+.hero-title-clamp {
+  font-size: clamp(32px, 8vw, 64px) !important;
+  line-height: 1.15 !important;
+}
+
+/* Padding de secciones en móvil */
+@media (max-width: 768px) {
+  .section-pad {
+    padding: 52px 0 !important;
+  }
+}

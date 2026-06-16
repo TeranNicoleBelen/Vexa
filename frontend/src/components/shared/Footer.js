@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer style={styles.footer}>
       <div style={styles.container}>
-        <div style={styles.grid}>
+        <div style={styles.grid} className="footer-grid-wrap">
           {/* Brand */}
           <div style={styles.col}>
             <h2 style={styles.logo}>VEXA</h2>
@@ -58,7 +58,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div style={styles.bottom}>
+        <div style={styles.bottom} className="footer-bottom-wrap">
           <p style={styles.bottomText}>© 2024 VEXA – Todos los derechos reservados</p>
           <p style={styles.bottomText}>Hecho con ♥ en Bolivia</p>
         </div>

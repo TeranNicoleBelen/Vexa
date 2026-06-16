@@ -39,14 +39,14 @@ export default function AboutPage() {
       {/* Story */}
       <section style={{ ...S.section, background: '#FDF5F7' }}>
         <div className="container">
-          <div style={S.storyLayout}>
+          <div style={S.storyLayout} className="story-wrap">
             <div style={S.storyText}>
               <h2 style={S.sectionTitle}>Nuestra Historia</h2>
               <p style={S.storyPara}>VEXA nació como un emprendimiento apasionado en el corazón del Mercado Ciudad Satélite de El Alto, Bolivia, con la visión de hacer accesibles los mejores productos de limpieza y belleza para todos los hogares de nuestra ciudad.</p>
               <p style={S.storyPara}>Lo que comenzó como una pequeña tienda en el mercado, creció rápidamente gracias a la confianza de nuestra comunidad y la calidad garantizada de nuestros productos. Hoy expandimos nuestra presencia al mundo digital para llegar a más familias bolivianas.</p>
               <p style={S.storyPara}>En VEXA creemos que cada hogar merece productos de calidad y cada persona merece sentirse bien. Por eso trabajamos día a día para ofrecerte lo mejor al mejor precio.</p>
             </div>
-            <div style={S.storyStats}>
+            <div style={S.storyStats} className="story-stats-wrap">
               {[
                 ['500+', 'Productos'],
                 ['★★★★★', 'Calidad'],

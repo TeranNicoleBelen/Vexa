@@ -55,7 +55,7 @@ export default function RegisterPage() {
 
   return (
     <div style={S.page}>
-      <div style={S.left}>
+      <div style={S.left} className="auth-left-panel">
         <div style={S.brand}>
           <h1 style={S.logo}>VEXA</h1>
           <p style={S.tagline}>Únete a nuestra familia</p>
@@ -68,7 +68,7 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      <div style={S.right}>
+      <div style={S.right} className="auth-right-panel">
         <div style={S.card}>
           <Link to="/login" style={S.backLink}>← Volver al login</Link>
           <h2 style={S.title}>Crear Cuenta</h2>
