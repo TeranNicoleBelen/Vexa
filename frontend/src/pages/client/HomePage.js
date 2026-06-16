@@ -39,7 +39,7 @@ export default function HomePage() {
           <div style={S.heroText}>
             <span style={S.heroBadge} className="hero-badge-wrap">
               <IconFlower size={14} color="#FFB6C1" />
-              &nbsp; Nueva colección 2024
+              &nbsp; Nueva colección 2026
             </span>
             <h1 style={S.heroTitle} className="hero-title-clamp">
               Belleza que<br />

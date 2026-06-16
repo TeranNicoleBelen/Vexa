@@ -1,8 +1,3 @@
-# ============================================
-# VEXA - Kubernetes Manifests
-# ============================================
-
-# --- NAMESPACE ---
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -22,8 +17,6 @@ stringData:
   MYSQL_USER: vexa_user
   MYSQL_PASSWORD: vexa_pass_2024
 
----
-# --- BACKEND SECRET ---
 apiVersion: v1
 kind: Secret
 metadata:
@@ -34,8 +27,7 @@ stringData:
   JWT_SECRET: vexa_super_secret_k8s_2024
   DB_PASSWORD: vexa_pass_2024
 
----
-# --- MYSQL PERSISTENT VOLUME CLAIM ---
+
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -48,8 +40,7 @@ spec:
     requests:
       storage: 2Gi
 
----
-# --- UPLOADS PERSISTENT VOLUME CLAIM ---
+
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -62,8 +53,6 @@ spec:
     requests:
       storage: 1Gi
 
----
-# --- MYSQL DEPLOYMENT ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -118,8 +107,7 @@ spec:
           persistentVolumeClaim:
             claimName: mysql-pvc
 
----
-# --- MYSQL SERVICE ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -133,8 +121,8 @@ spec:
       targetPort: 3306
   clusterIP: None
 
----
-# --- BACKEND DEPLOYMENT ---
+
+# BACKEND 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -204,8 +192,7 @@ spec:
           persistentVolumeClaim:
             claimName: uploads-pvc
 
----
-# --- BACKEND SERVICE ---
+# BACKEND SERVICE 
 apiVersion: v1
 kind: Service
 metadata:
@@ -219,8 +206,8 @@ spec:
       targetPort: 5000
   type: ClusterIP
 
----
-# --- FRONTEND DEPLOYMENT ---
+
+# FRONTEND 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -249,8 +236,8 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 15
 
----
-# --- FRONTEND SERVICE ---
+
+# FRONTEND SERVICE 
 apiVersion: v1
 kind: Service
 metadata:
@@ -264,8 +251,7 @@ spec:
       targetPort: 80
   type: LoadBalancer
 
----
-# --- HORIZONTAL POD AUTOSCALER (Backend) ---
+# HORIZONTAL (Backend) 
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:

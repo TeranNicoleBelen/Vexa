@@ -59,8 +59,8 @@ export default function Footer() {
         </div>
 
         <div style={styles.bottom} className="footer-bottom-wrap">
-          <p style={styles.bottomText}>© 2024 VEXA – Todos los derechos reservados</p>
-          <p style={styles.bottomText}>Hecho con ♥ en Bolivia</p>
+          <p style={styles.bottomText}>© 2026 VEXA – Todos los derechos reservados</p>
+          <p style={styles.bottomText}>Hecho por Teran Nicole Belen</p>
         </div>
       </div>
     </footer>
