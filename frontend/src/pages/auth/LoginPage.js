@@ -133,12 +133,12 @@ export default function LoginPage() {
               ¿No tienes cuenta?{' '}
               <Link to="/registro" style={{ color: '#E8637A', fontWeight: 600 }}>Regístrate aquí</Link>
             </p>
-            <div style={S.testAccounts}>
-              <p style={{ fontSize: 12, color: '#9B7B84', marginBottom: 6 }}>Cuentas de prueba:</p>
-              <code style={S.code}>admin@vexa.com / Admin@123</code>
-              <code style={S.code}>vendedor@vexa.com / Admin@123</code>
-              <code style={S.code}>cliente@vexa.com / Admin@123</code>
-            </div>
+              <div style={S.footer}>
+              <p style={{ fontSize: 14, color: '#9B7B84' }}>
+              ¿No tienes cuenta?{' '}
+              <Link to="/registro" style={{ color: '#E8637A', fontWeight: 600 }}>Regístrate aquí</Link>
+            </p>
+          </div>
           </div>
         </div>
       </div>
