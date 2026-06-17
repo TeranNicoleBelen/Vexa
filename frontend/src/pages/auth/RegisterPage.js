@@ -75,7 +75,7 @@ export default function RegisterPage() {
           <p style={S.sub}>Completa el formulario para registrarte</p>
 
           <form onSubmit={handleSubmit}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+            <div className="register-name-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
               <div>
                 <label className="form-label">Nombre *</label>
                 <input name="nombre" className="form-control" placeholder="María" value={form.nombre} onChange={handleChange} required />

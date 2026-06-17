@@ -110,7 +110,7 @@ export default function LoginPage() {
                   style={{ borderRadius: 8, overflow: 'hidden', flexShrink: 0 }}
                 />
                 <button type="button" onClick={loadCaptcha} title="Recargar captcha"
-                  style={S.reloadBtn}></button>
+                  style={S.reloadBtn}>🔄</button>
               </div>
               <input
                 type="text"
@@ -133,12 +133,6 @@ export default function LoginPage() {
               ¿No tienes cuenta?{' '}
               <Link to="/registro" style={{ color: '#E8637A', fontWeight: 600 }}>Regístrate aquí</Link>
             </p>
-              <div style={S.footer}>
-              <p style={{ fontSize: 14, color: '#9B7B84' }}>
-              ¿No tienes cuenta?{' '}
-              <Link to="/registro" style={{ color: '#E8637A', fontWeight: 600 }}>Regístrate aquí</Link>
-            </p>
-        </div>
           </div>
         </div>
       </div>
@@ -152,7 +146,6 @@ const S = {
     flex: 1, background: 'linear-gradient(135deg, #1A1A1A 0%, #3D1A24 100%)',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
     padding: 60, position: 'relative', overflow: 'hidden',
-    '@media (max-width: 768px)': { display: 'none' },
   },
   brand: { position: 'relative', zIndex: 2, color: 'white', maxWidth: 400 },
   logo: { fontFamily: "'Playfair Display', serif", fontSize: 56, color: '#FFB6C1', letterSpacing: 8, marginBottom: 4 },
@@ -166,7 +159,6 @@ const S = {
     width: 480, background: '#FDF5F7',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
     padding: 40,
-    '@media (max-width: 768px)': { width: '100%' },
   },
   card: { width: '100%', maxWidth: 400 },
   cardHeader: { marginBottom: 32 },
@@ -176,5 +168,5 @@ const S = {
   form: {},
   captchaBox: { display: 'flex', alignItems: 'center', gap: 12, background: 'white', padding: 12, borderRadius: 8, border: '2px solid #F0E0E5' },
   reloadBtn: { background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', padding: 4 },
-  footer: { marginTop: 24, textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 16 },
+  footer: { marginTop: 24, textAlign: 'center' },
 };

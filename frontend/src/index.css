@@ -904,3 +904,99 @@ tbody tr:last-child td { border-bottom: none; }
     padding: 52px 0 !important;
   }
 }
+
+/* ==========================================
+   STORE PAGE — RESPONSIVE
+   ========================================== */
+
+/* Botón toggle de filtros: visible solo en móvil */
+.store-filter-toggle {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .store-filter-toggle {
+    display: block !important;
+  }
+
+  /* Sidebar se convierte en drawer en móvil */
+  .store-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: -280px !important;
+    width: 270px !important;
+    height: 100vh !important;
+    background: white !important;
+    z-index: 200 !important;
+    overflow-y: auto !important;
+    padding: 16px !important;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.15) !important;
+    transition: left 0.3s ease !important;
+  }
+
+  .store-sidebar.sidebar-open {
+    left: 0 !important;
+  }
+
+  /* Botón cerrar sidebar en móvil: visible */
+  .store-sidebar-close {
+    display: block !important;
+  }
+
+  /* Layout: quitar gap y sidebar fijo */
+  .store-layout-inner {
+    display: block !important;
+  }
+}
+
+/* Auth right panel — quitar width fijo en móvil */
+@media (max-width: 768px) {
+  .auth-right-panel {
+    width: 100% !important;
+  }
+}
+
+/* Admin tables — scroll horizontal en móvil */
+@media (max-width: 768px) {
+  .table-responsive {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  table {
+    min-width: 500px;
+  }
+
+  .admin-content {
+    padding: 16px !important;
+  }
+
+  .admin-topbar {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    padding: 12px 16px !important;
+  }
+
+  /* Cards en móvil más compactas */
+  .stat-card {
+    padding: 16px !important;
+    gap: 12px !important;
+  }
+
+  .stat-icon {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 20px !important;
+  }
+
+  .stat-info h3 {
+    font-size: 22px !important;
+  }
+}
+
+/* Registro — grid 2 col a 1 col en móvil */
+@media (max-width: 480px) {
+  .register-name-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

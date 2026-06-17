@@ -7,8 +7,10 @@ RUN npm install --production
 
 COPY . .
 
+RUN npm run build
+
 RUN mkdir -p uploads
 
-EXPOSE 8080
+EXPOSE 5000
 
-CMD ["node", "src/index.js"]
+CMD ["node", "dist/main"]

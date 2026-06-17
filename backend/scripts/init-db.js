@@ -17,7 +17,7 @@ function getDbConfig() {
 }
 
 function getTargetDb() {
-  return process.env.MYSQLDATABASE || process.env.DB_NAME || 'railway';
+  return process.env.MYSQLDATABASE || process.env.DB_NAME || 'vexa_db';
 }
 
 function wait(ms) {
