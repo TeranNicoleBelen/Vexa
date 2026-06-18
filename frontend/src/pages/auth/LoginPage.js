@@ -42,6 +42,11 @@ export default function LoginPage() {
     setLoading(false);
   };
 
+  // Convierte el SVG a base64 para evitar bloqueos CSP en móvil
+  const captchaSrc = captcha.svg
+    ? `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(captcha.svg)))}`
+    : null;
+
   return (
     <div style={S.page}>
       <div style={S.left} className="auth-left-panel">
@@ -105,10 +110,17 @@ export default function LoginPage() {
             <div className="form-group">
               <label className="form-label">Verificación CAPTCHA</label>
               <div style={S.captchaBox}>
-                <div
-                  dangerouslySetInnerHTML={{ __html: captcha.svg }}
-                  style={{ borderRadius: 8, overflow: 'hidden', flexShrink: 0 }}
-                />
+                {captchaSrc ? (
+                  <img
+                    src={captchaSrc}
+                    alt="captcha"
+                    style={{ borderRadius: 8, height: 60, flexShrink: 0 }}
+                  />
+                ) : (
+                  <div style={{ height: 60, width: 160, background: '#F0E0E5', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontSize: 12, color: '#9B7B84' }}>Cargando...</span>
+                  </div>
+                )}
                 <button type="button" onClick={loadCaptcha} title="Recargar captcha"
                   style={S.reloadBtn}>🔄</button>
               </div>
