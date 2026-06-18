@@ -14,7 +14,16 @@ export default function HomePage() {
   const [visible, setVisible] = useState({});
 
   useEffect(() => {
-    categoriasService.getAll({ activo: 1 }).then(r => setCategorias(r.data.data || [])).catch(() => {});
+    categoriasService.getAll({ activo: 1 }).then(r => {
+      const data = r.data.data || [];
+      const nombresVistos = new Set();
+      const unicas = data.filter(cat => {
+        if (nombresVistos.has(cat.nombre)) return false;
+        nombresVistos.add(cat.nombre);
+        return true;
+      });
+      setCategorias(unicas);
+    }).catch(() => {});
     productosService.getAll({ activo: 1, limit: 8 }).then(r => setDestacados(r.data.data || [])).catch(() => {});
   }, []);
 
@@ -175,28 +184,21 @@ export default function HomePage() {
 function HeroIllustration() {
   return (
     <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* Fondo decorativo */}
       <circle cx="100" cy="100" r="90" fill="rgba(255,182,193,0.08)" />
-      {/* Frasco de perfume grande */}
       <rect x="70" y="80" width="60" height="80" rx="12" fill="rgba(232,99,122,0.7)"/>
       <rect x="80" y="60" width="40" height="24" rx="6" fill="rgba(232,99,122,0.85)"/>
       <rect x="88" y="48" width="24" height="16" rx="4" fill="rgba(255,182,193,0.9)"/>
       <rect x="82" y="44" width="36" height="8" rx="4" fill="rgba(232,99,122,0.6)"/>
       <ellipse cx="100" cy="110" rx="18" ry="12" fill="rgba(255,255,255,0.12)"/>
-      {/* Línea decorativa en frasco */}
       <rect x="76" y="92" width="48" height="2" rx="1" fill="rgba(255,255,255,0.2)"/>
-      {/* Etiqueta */}
       <rect x="78" y="100" width="44" height="30" rx="4" fill="rgba(255,255,255,0.15)"/>
       <rect x="84" y="106" width="32" height="3" rx="1.5" fill="rgba(255,255,255,0.4)"/>
       <rect x="88" y="113" width="24" height="2" rx="1" fill="rgba(255,255,255,0.25)"/>
-      {/* Lipstick izquierda */}
       <rect x="35" y="100" width="18" height="50" rx="4" fill="rgba(255,140,105,0.8)"/>
       <path d="M35 100 Q44 88 53 100" fill="rgba(255,140,105,0.9)"/>
       <rect x="37" y="108" width="14" height="3" rx="1.5" fill="rgba(255,255,255,0.2)"/>
-      {/* Lipstick derecha */}
       <rect x="147" y="108" width="18" height="48" rx="4" fill="rgba(255,182,193,0.8)"/>
       <path d="M147 108 Q156 96 165 108" fill="rgba(255,182,193,0.9)"/>
-      {/* Flores decorativas */}
       <circle cx="40" cy="70" r="8" fill="rgba(255,182,193,0.4)"/>
       <circle cx="40" cy="58" r="5" fill="rgba(255,182,193,0.3)"/>
       <circle cx="30" cy="66" r="5" fill="rgba(255,182,193,0.3)"/>
@@ -204,7 +206,6 @@ function HeroIllustration() {
       <circle cx="34" cy="78" r="5" fill="rgba(255,182,193,0.3)"/>
       <circle cx="46" cy="78" r="5" fill="rgba(255,182,193,0.3)"/>
       <circle cx="40" cy="70" r="4" fill="rgba(232,99,122,0.6)"/>
-      {/* Brillo en perfume */}
       <circle cx="82" cy="72" r="4" fill="rgba(255,255,255,0.3)"/>
       <circle cx="158" cy="60" r="6" fill="rgba(255,182,193,0.3)"/>
       <circle cx="158" cy="51" r="4" fill="rgba(255,182,193,0.2)"/>

@@ -38,11 +38,21 @@ export default function StorePage() {
   }, [catId]);
 
   useEffect(() => {
-    categoriasService.getAll({ activo: 1 }).then(r => setCategorias(r.data.data || []));
+    categoriasService.getAll({ activo: 1 }).then(r => {
+      const data = r.data.data || [];
+      const nombresVistos = new Set();
+      const unicas = data.filter(cat => {
+        if (nombresVistos.has(cat.nombre)) return false;
+        nombresVistos.add(cat.nombre);
+        return true;
+      });
+      setCategorias(unicas);
+    });
   }, []);
 
   useEffect(() => {
     loadProductos();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCat, page, search]);
 
   const loadProductos = async () => {
