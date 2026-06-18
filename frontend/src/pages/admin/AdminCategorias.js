@@ -15,7 +15,15 @@ const subcategoriasPor = {
   'Cabello': ['Shampoo', 'Acondicionador', 'Tratamientos', 'Tintes', 'Accesorios'],
   'Skin Care': ['Hidratantes', 'Protector Solar', 'Sueros', 'Limpiadores', 'Mascarillas'],
 };
-
+// Emojis por categoría
+const catEmojis = {
+  'Fragancias': '🌸',
+  'Belleza': '💄',
+  'Limpieza del Hogar': '🧹',
+  'Cuidado Personal': '🧴',
+  'Cabello': '💇',
+  'Skin Care': '✨',
+};
 export default function AdminCategorias() {
   const [categorias, setCategorias] = useState([]);
   const [loading, setLoading] = useState(true);
