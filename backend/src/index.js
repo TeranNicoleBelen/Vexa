@@ -8,44 +8,44 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Confiar en proxies (DEBE estar antes de rate-limit)
+app.set('trust proxy', 1);
+
 // Security middleware
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 
-// Rate limiting
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 200, message: 'Demasiadas solicitudes, intenta más tarde.' });
+// Rate limiting - CON trust proxy configurado
+const limiter = rateLimit({ 
+  windowMs: 15 * 60 * 1000, 
+  max: 200, 
+  message: 'Demasiadas solicitudes, intenta más tarde.',
+  trustProxy: true,
+  keyGenerator: (req, res) => {
+    return req.ip || req.connection.remoteAddress;
+  }
+});
 app.use('/api/', limiter);
 
-// CORS - Configuración mejorada para móvil y producción
+// CORS
 app.use(cors({
   origin: function(origin, callback) {
-    // Permitir peticiones sin origin (aplicaciones móviles)
     if (!origin) return callback(null, true);
-    
-    // Permitir localhost en desarrollo
     if (origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('192.168')) {
       return callback(null, true);
     }
-    
-    // Permitir URLs de Railway
     if (origin.includes('railway.app')) {
       return callback(null, true);
     }
-    
-    // En desarrollo, permitir todos los orígenes
     if (process.env.NODE_ENV !== 'production') {
       return callback(null, true);
     }
-    
-    // En producción, solo permitir orígenes específicos
     const allowedOrigins = [
       process.env.FRONTEND_URL,
       'https://vexa-frontend-production.up.railway.app'
     ].filter(Boolean);
-    
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
-    
     callback(new Error('CORS no permitido'));
   },
   credentials: true,
