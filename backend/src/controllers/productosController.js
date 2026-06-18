@@ -63,7 +63,7 @@ const getById = async (req, res) => {
 // POST /api/productos
 const create = async (req, res) => {
   const { nombre, descripcion, precio, stock, stock_minimo, categoria_id, marca, codigo } = req.body;
-  const imagen = req.file ? `/uploads/${req.file.filename}` : null;
+ const imagen = req.file ? (req.file.path || `/uploads/${req.file.filename}`) : null; 
   const { ip } = getClientInfo(req);
 
   if (!nombre || !precio || !stock || !categoria_id) {
@@ -102,7 +102,7 @@ const update = async (req, res) => {
         const oldPath = path.join(__dirname, '../../', imagen);
         if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
       }
-      imagen = `/uploads/${req.file.filename}`;
+      imagen = req.file.path || `/uploads/${req.file.filename}`;
     }
 
     await pool.query(
