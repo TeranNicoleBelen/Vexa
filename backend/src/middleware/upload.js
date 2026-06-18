@@ -1,11 +1,12 @@
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+require('dotenv').config();
 
 let storage;
 
-// En producción, usar Cloudinary; en desarrollo, usar disco local
-if (process.env.NODE_ENV === 'production' && process.env.CLOUDINARY_CLOUD_NAME) {
+// Usar Cloudinary si las credenciales están disponibles (desarrollo o producción)
+if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
   const CloudinaryStorage = require('multer-storage-cloudinary').CloudinaryStorage;
   const cloudinary = require('cloudinary').v2;
   
@@ -23,8 +24,10 @@ if (process.env.NODE_ENV === 'production' && process.env.CLOUDINARY_CLOUD_NAME) 
       allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp']
     }
   });
+  console.log('✅ Usando Cloudinary para almacenamiento de imágenes');
 } else {
-  // Desarrollo local - guardar en disco
+  // Fallback a almacenamiento local si no hay credenciales de Cloudinary
+  console.log('⚠️ Cloudinary no configurado, usando almacenamiento local');
   const uploadDir = path.join(__dirname, '../../uploads');
   
   if (!fs.existsSync(uploadDir)) {
