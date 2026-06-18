@@ -15,41 +15,38 @@ app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 200, message: 'Demasiadas solicitudes, intenta más tarde.' });
 app.use('/api/', limiter);
 
-// CORS - Mejorado para producción y móvil
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:3001',
-  'http://localhost:5000',
-  'http://127.0.0.1:3000',
-  'http://127.0.0.1:3001',
-  process.env.FRONTEND_URL,
-  process.env.MOBILE_URL
-].filter(Boolean);
-
+// CORS - Configuración mejorada para móvil y producción
 app.use(cors({
   origin: function(origin, callback) {
-    // Permitir peticiones sin origin (mobile apps)
+    // Permitir peticiones sin origin (aplicaciones móviles)
     if (!origin) return callback(null, true);
     
     // Permitir localhost en desarrollo
-    if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+    if (origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('192.168')) {
       return callback(null, true);
     }
     
-    // Permitir URLs configuradas
+    // Permitir URLs de Railway
+    if (origin.includes('railway.app')) {
+      return callback(null, true);
+    }
+    
+    // En desarrollo, permitir todos los orígenes
+    if (process.env.NODE_ENV !== 'production') {
+      return callback(null, true);
+    }
+    
+    // En producción, solo permitir orígenes específicos
+    const allowedOrigins = [
+      process.env.FRONTEND_URL,
+      'https://vexa-frontend-production.up.railway.app'
+    ].filter(Boolean);
+    
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
     
-    // En producción, permitir la URL del frontend
-    if (process.env.NODE_ENV === 'production' && process.env.FRONTEND_URL) {
-      callback(null, true);
-    } else if (process.env.NODE_ENV !== 'production') {
-      // En desarrollo, permitir todos
-      callback(null, true);
-    } else {
-      callback(new Error('CORS no permitido'));
-    }
+    callback(new Error('CORS no permitido'));
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -93,13 +90,13 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`
-
-           VEXA Backend API              
-      Tienda de Limpieza & Belleza       
-  
-    Puerto: ${PORT}                          
-    Entorno: ${process.env.NODE_ENV}              
-  
+  ╔═══════════════════════════════════════╗
+  ║         VEXA Backend API              ║
+  ║    Tienda de Limpieza & Belleza       ║
+  ╠═══════════════════════════════════════╣
+  ║  Puerto: ${PORT}                          ║
+  ║  Entorno: ${process.env.NODE_ENV}              ║
+  ╚═══════════════════════════════════════╝
   `);
 });
 
