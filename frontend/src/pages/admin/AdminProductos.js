@@ -4,7 +4,17 @@ import { productosService, categoriasService } from '../../utils/api';
 import { toast } from 'react-toastify';
 
 const API_BASE = process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:5000';
-const EMPTY = { nombre: '', descripcion: '', precio: '', stock: '', stock_minimo: '5', categoria_id: '', marca: '', codigo: '', activo: 1, imagen: null };
+const EMPTY = { nombre: '', descripcion: '', precio: '', stock: '', stock_minimo: '5', categoria_id: '', subcategoria: '', marca: '', codigo: '', activo: 1, imagen: null };
+
+// Subcategorías por categoría principal (igual que en StorePage)
+const subcategoriasPor = {
+  'Fragancias': ['Fragancias Niños', 'Fragancias Niñas', 'Fragancias Mujeres', 'Fragancias Varones', 'Fragancias Unisex'],
+  'Belleza': ['Cuidado Facial', 'Maquillaje', 'Cuidado Corporal', 'Cuidado Capilar', 'Uñas'],
+  'Limpieza del Hogar': ['Desinfectantes', 'Lava Vajillas', 'Limpia Pisos', 'Limpia Baños', 'Quitamanchas'],
+  'Cuidado Personal': ['Higiene Bucal', 'Jabones y Geles', 'Desodorantes', 'Afeitado', 'Protección Solar'],
+  'Cabello': ['Shampoo', 'Acondicionador', 'Tratamientos', 'Tintes', 'Accesorios'],
+  'Skin Care': ['Hidratantes', 'Protector Solar', 'Sueros', 'Limpiadores', 'Mascarillas'],
+};
 
 export default function AdminProductos() {
   const [productos, setProductos] = useState([]);
@@ -19,7 +29,16 @@ export default function AdminProductos() {
 
   useEffect(() => {
     load();
-    categoriasService.getAll({ activo: 1 }).then(r => setCategorias(r.data.data || []));
+    categoriasService.getAll({ activo: 1 }).then(r => {
+      const data = r.data.data || [];
+      const nombresVistos = new Set();
+      const unicas = data.filter(cat => {
+        if (nombresVistos.has(cat.nombre)) return false;
+        nombresVistos.add(cat.nombre);
+        return true;
+      });
+      setCategorias(unicas);
+    });
   }, []);
 
   const load = async () => {
@@ -33,7 +52,12 @@ export default function AdminProductos() {
 
   const openCreate = () => { setForm(EMPTY); setEditing(null); setImgPreview(null); setModal(true); };
   const openEdit = (p) => {
-    setForm({ nombre: p.nombre, descripcion: p.descripcion || '', precio: p.precio, stock: p.stock, stock_minimo: p.stock_minimo, categoria_id: p.categoria_id, marca: p.marca || '', codigo: p.codigo || '', activo: p.activo, imagen: null });
+    setForm({
+      nombre: p.nombre, descripcion: p.descripcion || '', precio: p.precio,
+      stock: p.stock, stock_minimo: p.stock_minimo, categoria_id: p.categoria_id,
+      subcategoria: p.subcategoria || '', marca: p.marca || '',
+      codigo: p.codigo || '', activo: p.activo, imagen: null
+    });
     setImgPreview(p.imagen ? `${API_BASE}${p.imagen}` : null);
     setEditing(p.id);
     setModal(true);
@@ -68,6 +92,10 @@ export default function AdminProductos() {
     catch { toast.error('Error al eliminar'); }
   };
 
+  // Categoría seleccionada actualmente para mostrar sus subcategorías
+  const catSeleccionada = categorias.find(c => String(c.id) === String(form.categoria_id));
+  const subcatsDisponibles = catSeleccionada ? (subcategoriasPor[catSeleccionada.nombre] || []) : [];
+
   const filtered = productos.filter(p =>
     p.nombre.toLowerCase().includes(search.toLowerCase()) ||
     (p.marca || '').toLowerCase().includes(search.toLowerCase()) ||
@@ -77,7 +105,7 @@ export default function AdminProductos() {
   return (
     <AdminLayout title="Productos" subtitle="Gestiona el catálogo de productos VEXA">
       <div className="flex-between mb-24">
-        <input type="text" placeholder=" Buscar producto..." value={search} onChange={e => setSearch(e.target.value)} className="form-control" style={{ maxWidth: 320 }} />
+        <input type="text" placeholder="🔍 Buscar producto..." value={search} onChange={e => setSearch(e.target.value)} className="form-control" style={{ maxWidth: 320 }} />
         <button className="btn btn-primary" onClick={openCreate}>+ Nuevo Producto</button>
       </div>
 
@@ -95,7 +123,7 @@ export default function AdminProductos() {
                   <td>
                     {p.imagen
                       ? <img src={`${API_BASE}${p.imagen}`} alt={p.nombre} style={{ width: 48, height: 48, borderRadius: 8, objectFit: 'cover' }} />
-                      : <div style={{ width: 48, height: 48, borderRadius: 8, background: 'linear-gradient(135deg, #FFD1DC, #FFDAB9)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}></div>
+                      : <div style={{ width: 48, height: 48, borderRadius: 8, background: 'linear-gradient(135deg, #FFD1DC, #FFDAB9)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>🧴</div>
                     }
                   </td>
                   <td>
@@ -112,8 +140,8 @@ export default function AdminProductos() {
                   <td><span className={`badge ${p.activo ? 'badge-success' : 'badge-danger'}`}>{p.activo ? 'Activo' : 'Inactivo'}</span></td>
                   <td>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button className="btn btn-sm btn-secondary" onClick={() => openEdit(p)}> Editar</button>
-                      <button className="btn btn-sm btn-danger" onClick={() => handleDelete(p.id, p.nombre)}></button>
+                      <button className="btn btn-sm btn-secondary" onClick={() => openEdit(p)}>✏️ Editar</button>
+                      <button className="btn btn-sm btn-danger" onClick={() => handleDelete(p.id, p.nombre)}>🗑</button>
                     </div>
                   </td>
                 </tr>
@@ -139,7 +167,7 @@ export default function AdminProductos() {
                   <label htmlFor="img-upload" className="image-upload-area" style={{ cursor: 'pointer', display: 'block' }}>
                     {imgPreview
                       ? <img src={imgPreview} alt="preview" className="image-preview" />
-                      : <><div style={{ fontSize: 40, marginBottom: 8 }}>Foto</div><p style={{ color: '#9B7B84', fontSize: 14 }}>Click para subir imagen del producto</p></>
+                      : <><div style={{ fontSize: 40, marginBottom: 8 }}>📷</div><p style={{ color: '#9B7B84', fontSize: 14 }}>Click para subir imagen del producto</p></>
                     }
                     <input id="img-upload" type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImg} />
                   </label>
@@ -160,11 +188,36 @@ export default function AdminProductos() {
                   </div>
                   <div className="form-group">
                     <label className="form-label">Categoría *</label>
-                    <select className="form-control" value={form.categoria_id} onChange={e => setForm(f => ({ ...f, categoria_id: e.target.value }))} required>
-                      <option value="">Seleccionar...</option>
-                      {categorias.map(c => <option key={c.id} value={c.id}>{c.nombre}</option>)}
+                    <select
+                      className="form-control"
+                      value={form.categoria_id}
+                      onChange={e => setForm(f => ({ ...f, categoria_id: e.target.value, subcategoria: '' }))}
+                      required
+                    >
+                      <option value="">Seleccionar categoría...</option>
+                      {categorias.map(c => (
+                        <option key={c.id} value={c.id}>{c.nombre}</option>
+                      ))}
                     </select>
                   </div>
+
+                  {/* Subcategoría — aparece solo si la categoría elegida tiene subcategorías */}
+                  {subcatsDisponibles.length > 0 && (
+                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                      <label className="form-label">Subcategoría <span style={{ color: '#9B7B84', fontWeight: 400 }}>(opcional)</span></label>
+                      <select
+                        className="form-control"
+                        value={form.subcategoria}
+                        onChange={e => setForm(f => ({ ...f, subcategoria: e.target.value }))}
+                      >
+                        <option value="">— Sin subcategoría —</option>
+                        {subcatsDisponibles.map(sub => (
+                          <option key={sub} value={sub}>{sub}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
                   <div className="form-group">
                     <label className="form-label">Stock *</label>
                     <input type="number" min="0" className="form-control" value={form.stock} onChange={e => setForm(f => ({ ...f, stock: e.target.value }))} required />
@@ -192,7 +245,7 @@ export default function AdminProductos() {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" onClick={() => setModal(false)}>Cancelar</button>
-                <button type="submit" className="btn btn-primary" disabled={saving}>{saving ? ' Guardando...' : 'Guardar Guardar'}</button>
+                <button type="submit" className="btn btn-primary" disabled={saving}>{saving ? '⏳ Guardando...' : 'Guardar'}</button>
               </div>
             </form>
           </div>
